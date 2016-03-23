@@ -18,7 +18,7 @@ RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --force
 # Ugrade system
 RUN apt-get upgrade -y
 
-RUN mkdir /opt
+RUN mkdir -p /opt && chown -R root.root /opt
 WORKDIR /opt
 
 # Install Android SDK

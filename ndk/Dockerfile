@@ -8,8 +8,8 @@ WORKDIR /opt
 RUN wget --output-document=android-ndk.zip --quiet http://dl.google.com/android/repository/android-ndk-r11b-linux-x86_64.zip && unzip android-ndk.zip && rm -f android-ndk.zip && chown -R root.root android-ndk-r11b && mv android-ndk-r11b android-ndk-linux
 
 # More environment
-ENV ANDROID_NDK /android-ndk-linux
-ENV ANDROID_NDK_HOME /android-ndk-linux
+ENV ANDROID_NDK /opt/android-ndk-linux
+ENV ANDROID_NDK_HOME /opt/android-ndk-linux
 
 # GO to workspace
 WORKDIR /opt/workspace
