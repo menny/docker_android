@@ -1,7 +1,7 @@
 # Dockerfile for Android CI
 My general usage (very up-to-date) Docker image for Android CI
 
-##Contains:
+## Contains:
 
 * Ubuntu 15.10, with wget, curl, zip, python
 * Java8
