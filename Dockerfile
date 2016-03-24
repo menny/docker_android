@@ -15,9 +15,6 @@ RUN \
 # Install Deps
 RUN dpkg --add-architecture i386 && apt-get update && apt-get install -y --force-yes expect zip git wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl
 
-# Ugrade system
-RUN apt-get upgrade -y
-
 RUN mkdir -p /opt && chown -R root.root /opt
 WORKDIR /opt
 
