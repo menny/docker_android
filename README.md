@@ -3,7 +3,7 @@ My general usage (very up-to-date) Docker image for Android CI
 
 ## Contains:
 
-* Ubuntu 15.10, with wget, curl, zip, python
+* Debian 7.9, with wget, curl, zip, python, git, make, gcc (and other build-essential)
 * Java8
 * SDK Tools 24.4.1
 * Build Tools 23.0.3
@@ -17,7 +17,7 @@ Build image: `docker build -t menny/android:latest .`
 
 Pull from Docker Hub: `docker pull menny/android:latest`
 
-To run image: `docker run -i -t [image-id] /bin/bash` 
+To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android:latest` 
 
 To stop all Docker containers: `docker stop -f $(docker ps -a -q)`
 

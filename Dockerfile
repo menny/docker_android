@@ -24,7 +24,7 @@ RUN \
   apt-get update && \
   apt-get install -y oracle-java8-installer && \
 # Install Deps
-  dpkg --add-architecture i386 && apt-get update && apt-get install -y --force-yes expect zip git wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl && \
+  dpkg --add-architecture i386 && apt-get update && apt-get install -y --force-yes expect zip git-core build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/oracle-jdk8-installer && \
 # Cleaning
