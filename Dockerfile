@@ -27,7 +27,7 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/oracle-jdk8-installer && \
 # Cleaning
-  apt-get purge -y libx11-data perl-modules && apt-get clean autoclean --auto-remove && \
+  apt-get purge -y libx11-data perl-modules && apt-get clean autoclean auto-remove && \
   rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Install Android SDK
