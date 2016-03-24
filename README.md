@@ -3,7 +3,7 @@ My general usage (very up-to-date) Docker image for Android CI
 
 ## Contains:
 
-* Debian 7.9, with wget, curl, zip, python, git, make, gcc (and other build-essential)
+* Ubuntu 15.10, with wget, curl, zip, python, git, make, gcc (and other build-essential)
 * Java8
 * SDK Tools 24.4.1
 * Build Tools 23.0.3
