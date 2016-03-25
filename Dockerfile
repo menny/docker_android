@@ -7,7 +7,8 @@ LABEL description="A general use Android docker for CI"
 RUN mkdir -p /opt && chown -R root.root /opt 
 WORKDIR /opt
 COPY tools /opt/tools
-RUN chmod +x /opt/tools/android-accept-licenses.sh
+RUN chmod +x /opt/tools/android-accept-licenses.sh && \
+	chmod +x /opt/tools/start_emulator.sh
 
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
@@ -34,20 +35,10 @@ RUN \
 RUN wget --output-document=android-sdk.tgz --quiet http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar xzf android-sdk.tgz && rm -f android-sdk.tgz && chown -R root.root android-sdk-linux
 
 # Install sdk elements (list from "android list sdk --all --extended")
-RUN ["/opt/tools/android-accept-licenses.sh", "android update sdk --all --force --no-ui --filter platform-tools,build-tools-23.0.3,android-23,addon-google_apis-google-23,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services,sys-img-armeabi-v7a-addon-google_apis-google-23"]
+RUN ["/opt/tools/android-accept-licenses.sh", "android update sdk --all --force --no-ui --filter platform-tools,build-tools-23.0.3,android-23,addon-google_apis-google-23,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services"]
 
 RUN which adb
 RUN which android
-
-# Create emulator
-#RUN echo "no" | android create avd \
-#                --force \
-#                --device "Nexus 5" \
-#                --name test \
-#                --target android-23 \
-#                --abi armeabi-v7a \
-#                --skin WVGA800 \
-#                --sdcard 512M
 
 # GO to workspace
 RUN mkdir -p /opt/workspace

@@ -10,7 +10,8 @@ My general usage (very up-to-date) Docker image for Android CI
 * SDK API 23
 * Support Library 23.2.1
 * Play Services 8.4.0
-* ARMv7 System Image API level 23, with Google Services
+* `/opt/tools/start_emulator.sh` script which can download and start an emulator.
+
 
 ## Common commands
 Build image: `docker build -t menny/android:latest .`
