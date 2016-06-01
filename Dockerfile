@@ -1,7 +1,7 @@
 FROM ubuntu:15.10
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.2"
+LABEL version="1.2.1"
 LABEL description="A general use Android docker for CI"
 
 RUN mkdir -p /opt && chown -R root.root /opt 
