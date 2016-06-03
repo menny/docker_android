@@ -1,4 +1,4 @@
-FROM menny/android:1.2.2
+FROM menny/android:latest
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
 LABEL version="1.2.2"
