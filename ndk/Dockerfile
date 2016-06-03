@@ -1,7 +1,7 @@
 FROM menny/android:latest
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.2.2"
+LABEL version="1.2.3"
 LABEL description="A general use Android docker for CI with NDK"
 
 WORKDIR /opt
