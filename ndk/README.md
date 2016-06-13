@@ -10,11 +10,3 @@ My general usage (very up-to-date) Docker image for Android with NDK CI
 Build image: `docker build -t menny/android_ndk:latest .`
 
 Pull from Docker Hub: `docker pull menny/android_ndk:latest`
-
-To run image: `docker run -i -t [image-id] /bin/bash` 
-
-To stop all Docker containers: `docker stop -f $(docker ps -a -q)`
-
-To remove all Docker containers: `docker rm -f $(docker ps -a -q)`
-
-To remove all Docker images: `docker rmi -f $(docker images -q)`
