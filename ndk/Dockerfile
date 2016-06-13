@@ -1,13 +1,13 @@
-FROM menny/android:1.3.0
+FROM menny/android:1.4.0
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.3.0"
+LABEL version="1.4.0"
 LABEL description="A general use Android docker for CI with NDK"
 
 WORKDIR /opt
 
 # Install Android NDK
-RUN wget --output-document=android-ndk.zip --quiet http://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip && unzip android-ndk.zip && rm -f android-ndk.zip && chown -R root.root android-ndk-r11c && mv android-ndk-r11c android-ndk-linux
+RUN wget --output-document=android-ndk.zip --quiet http://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip && unzip android-ndk.zip && rm -f android-ndk.zip && mv android-ndk-r11c android-ndk-linux
 
 # More environment
 ENV ANDROID_NDK /opt/android-ndk-linux

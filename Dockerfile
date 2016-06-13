@@ -1,7 +1,7 @@
-FROM java:8
+FROM ubuntu:15.10
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.3.1"
+LABEL version="1.4.0"
 LABEL description="A general use Android docker for CI"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -14,6 +14,13 @@ RUN chmod +x /opt/tools/start_emulator.sh
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+ENV JAVA_VERSION 1.8
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle/
+
+# Install java8
+ RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:webupd8team/java
+ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+ RUN apt-get update && apt-get install -y oracle-java8-installer
 
 # Install Deps and build-essential
 RUN dpkg --add-architecture i386 && \
@@ -21,7 +28,6 @@ RUN dpkg --add-architecture i386 && \
 	apt-get install -y --force-yes ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl && \
 	apt-get clean
 
-  
 # Install Android SDK
 RUN wget --output-document=android-sdk.tgz --quiet http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && \
 	tar --no-same-owner -xzf android-sdk.tgz && \
