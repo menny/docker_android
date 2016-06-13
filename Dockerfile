@@ -1,7 +1,7 @@
 FROM java:8
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.3.0"
+LABEL version="1.3.1"
 LABEL description="A general use Android docker for CI"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -18,7 +18,7 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 # Install Deps and build-essential
 RUN dpkg --add-architecture i386 && \
 	apt-get update && \
-	apt-get install -y --force-yes ca-certificates rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl && \
+	apt-get install -y --force-yes ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl && \
 	apt-get clean
 
   
