@@ -1,10 +1,8 @@
 FROM ubuntu:15.10
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.4.0"
+LABEL version="1.4.1"
 LABEL description="A general use Android docker for CI"
-
-ENV DEBIAN_FRONTEND noninteractive
 
 RUN mkdir -p /opt
 WORKDIR /opt
@@ -44,9 +42,6 @@ RUN echo y | android update sdk --all --no-ui --filter tools && \
 
 RUN which adb
 RUN which android
-
-# Support Gradle
-ENV TERM dumb
 
 # GO to workspace
 RUN mkdir -p /opt/workspace
