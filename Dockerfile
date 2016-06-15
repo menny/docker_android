@@ -23,7 +23,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-oracle/
 # Install Deps and build-essential
 RUN dpkg --add-architecture i386 && \
 	apt-get update && \
-	apt-get install -y --force-yes ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl && \
+	apt-get install -y --force-yes ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl psmisc module-init-tools && \
 	apt-get clean
 
 # Install Android SDK
