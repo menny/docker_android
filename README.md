@@ -7,9 +7,9 @@ My general usage (very up-to-date) Docker image for Android CI
 * Java8
 * Platform tools 23.1
 * SDK Tools 25.1.7
-* Build Tools 23.0.3
-* SDK API 23
-* Support Library 23.4.0
+* Build Tools 24.0.0
+* SDK API 24
+* Support Library 24.0.0
 * Play Services 8.4.0
 * And more (gcm, licensing, billing, apk exp., etc.).
 * `/opt/tools/start_emulator.sh` script which can download and start an emulator.
