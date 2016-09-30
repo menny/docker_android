@@ -7,6 +7,6 @@ My general usage (very up-to-date) Docker image for Android with NDK CI
 * NDK 11c
 
 ## Common commands
-Build image: `docker build -t menny/android_ndk:latest .`
+Build image: `docker build -t menny/android_ndk:1.5.6 .`
 
-Pull from Docker Hub: `docker pull menny/android_ndk:latest`
+Pull from Docker Hub: `docker pull menny/android_ndk:1.5.6`

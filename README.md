@@ -16,11 +16,11 @@ My general usage (very up-to-date) Docker image for Android CI
 
 
 ## Common commands
-Build image: `docker build -t menny/android:latest .`
+Build image: `docker build -t menny/android:1.5.6 .`
 
-Pull from Docker Hub: `docker pull menny/android:latest`
+Pull from Docker Hub: `docker pull menny/android:1.5.6`
 
-To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android:latest` 
+To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android:1.5.6` 
 
 ## General Docker commands:
 To stop *all* Docker containers: `docker stop $(docker ps -a -q)`
