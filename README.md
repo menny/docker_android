@@ -6,11 +6,11 @@ My general usage (very up-to-date) Docker image for Android CI
 * Ubuntu 15.10, with wget, curl, zip, python, git, make, gcc (and other build-essential)
 * Java8
 * Platform tools 23.1
-* SDK Tools 25.1.7
-* Build Tools 24.0.1
+* SDK Tools 25.2.2
+* Build Tools 24.0.3
 * SDK API 24
-* Support Library 24.1.0
-* Play Services 8.4.0
+* Support Library 24.2.1
+* Play Services 9.6.1
 * And more (gcm, licensing, billing, apk exp., etc.).
 * `/opt/tools/start_emulator.sh` script which can download and start an emulator.
 
