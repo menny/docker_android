@@ -1,8 +1,20 @@
 FROM ubuntu:16.04
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.7.0"
+LABEL version="1.7.1"
 LABEL description="A general use Android docker for CI"
+
+RUN apt-get update && apt-get install -y software-properties-common
+# Install Deps and build-essential
+RUN dpkg --add-architecture i386 && \
+	apt-get update && \
+	apt-get install -y locales ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl psmisc module-init-tools python-pip && \
+	apt-get clean
+
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 RUN mkdir -p /opt
 WORKDIR /opt
@@ -16,16 +28,10 @@ ENV JAVA_VERSION 1.8
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle/
 
 # Install java8
- RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:webupd8team/java
+ RUN add-apt-repository -y ppa:webupd8team/java
  RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
  RUN apt-get update && apt-get install -y oracle-java8-installer
  RUN apt-get install oracle-java8-set-default
-
-# Install Deps and build-essential
-RUN dpkg --add-architecture i386 && \
-	apt-get update && \
-	apt-get install -y ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl psmisc module-init-tools python-pip && \
-	apt-get clean
 
 RUN pip install -U pip
 RUN pip install awscli
