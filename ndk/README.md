@@ -10,6 +10,6 @@ My general usage (very up-to-date) Docker image for Android with NDK CI
 [Read](https://github.com/menny/docker_android/blob/master/README.md#accepting-licenses) about this at the general Android Docker image.
 
 ## Common commands
-Build image: `docker build -t menny/android_ndk:1.7.0 .`
+Build image: `docker build -t menny/android_ndk:latest .`
 
-Pull from Docker Hub: `docker pull menny/android_ndk:1.7.0`
+Pull from Docker Hub: `docker pull menny/android_ndk:latest`

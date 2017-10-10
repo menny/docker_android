@@ -3,16 +3,13 @@ My general usage (very up-to-date) Docker image for Android CI
 
 ## Contains:
 
-* Ubuntu 16.04, with wget, curl, zip, python, pip, awsclie, git, make, gcc (and other build-essential)
+* Based on https://github.com/tklx/base
+* with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * Java8
 * Platform tools 26.0.0
-* SDK Tools 26.0.2
-* Build Tools 26.0.0
-* SDK API 24, 25 and 26
-* Support Repository 47.0.0
-* Play Services and Firebase repository 41
-* And more (gcm, licensing, billing, apk exp., etc.). 
-* `/opt/tools/start_emulator.sh` script which can download and start an emulator.
+* SDK Tools 26.1.1
+* Build Tools 26.0.2
+* SDK API 26
 
 ## Accepting licenses
 Getting an error when building Android with this Docker image? Something like this:
@@ -40,11 +37,11 @@ Also, due to a known [bug](https://code.google.com/p/android/issues/detail?id=21
 ```    
 
 ## Common commands
-Build image: `docker build -t menny/android:1.7.0 .`
+Build image: `docker build -t menny/android:latest .`
 
-Pull from Docker Hub: `docker pull menny/android:1.7.0`
+Pull from Docker Hub: `docker pull menny/android:latest`
 
-To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android:1.7.0`
+To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android:latest`
 
 ## General Docker commands:
 To stop *all* Docker containers: `docker stop $(docker ps -a -q)`
