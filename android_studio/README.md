@@ -1,6 +1,9 @@
 # Dockerfile for Android development with NDK and Android Studio
-Docker image for desktop development based on menny/android_ndk image and has Android Studio.
+Docker image for desktop development using Android Studio, based on menny/android_ndk image.<br/>
 
+Like this (artifacts only in the screenshot, not in real life):
+
+![Screenshot of AnySoftKeyboard inside Docker](android_studio_ask_screenshot.png "Screenshot of AnySoftKeyboard inside Docker")
 
 ## Contains:
 
