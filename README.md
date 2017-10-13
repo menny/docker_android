@@ -3,7 +3,7 @@ My general usage (very up-to-date) Docker image for Android CI
 
 ## Contains:
 
-* Based on https://github.com/tklx/base
+* Based on `ubuntu:16.04`
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * Java8
 * Platform tools 26.0.0

@@ -40,13 +40,13 @@ ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 ```
 And run Android Studio:
 ```
-docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.0
+docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.1
 ```
 
 ### Running on Linux -- did not verify
 Probably just:
 ```
-docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.0
+docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.1
 ```
 
 ### Running on Windows
@@ -61,14 +61,21 @@ My workflow is as follow:
 3. Checkout your repo using the _Import from source control_ option.
 4. Once your repo is loaded, setup Android Studio with everything you need (plugins, settings, code style, etc).
 5. You might also want to download the sources for the Android SDK. Maybe compile the app once to make sure everything is fine.
-6. Quit Android Studio.
-7. In the host machine's terminal run `docker ps --all`. You'll see the Android Studio container (probably the top-most) in exited status. Copy it's name (last column). For example:
+6. You might also want to setup the `local.properties` file in your checkout repo. Add the SDK and NDK paths:
+
+```
+ndk.dir=/opt/android-ndk-linux
+sdk.dir=/opt/android-sdk-linux
+```
+
+7. Quit Android Studio.
+8. In the host machine's terminal run `docker ps --all`. You'll see the Android Studio container (probably the top-most) in exited status. Copy it's name (last column). For example:
 
 ```
 ➜ docker ps --all
 CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS                         PORTS               NAMES
-daffb7bbee3f        menny/android_studio:1.8.0   "/opt/android-stud..."   21 minutes ago      Exited (0) 11 seconds ago                          hardcore_meninsky
+daffb7bbee3f        menny/android_studio:1.8.1   "/opt/android-stud..."   21 minutes ago      Exited (0) 11 seconds ago                          hardcore_meninsky
 ```
 
- 8. Commit that container into a new tag (let's say _warm_android_studio_): `docker commit hardcore_meninsky warm_android_studio`. This might take a while.
- 9. You're done! Next time, you can run your warm image: `docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix warm_android_studio`
+ 9. Commit that container into a new tag (let's say _warm_android_studio_): `docker commit hardcore_meninsky warm_android_studio`. This might take a while.
+ 10. You're done! Next time, you can run your warm image: `docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix warm_android_studio`
