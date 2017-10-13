@@ -58,18 +58,39 @@ My workflow is as follow:
 
 1. Start the Docker image
 2. Installation wizard will come up, follow all steps. Let it download what it needs.
-3. Checkout your repo using the _Import from source control_ option.
-4. Once your repo is loaded, setup Android Studio with everything you need (plugins, settings, code style, etc).
-5. You might also want to download the sources for the Android SDK. Maybe compile the app once to make sure everything is fine.
-6. You might also want to setup the `local.properties` file in your checkout repo. Add the SDK and NDK paths:
+3. At this point, you might want copy your `id_rsa` keys into the Docker image, that's in case you need those keys for cloning your repo.
+
+```
+docker exec -it hardcore_meninsky bash
+```
+
+This will open a `bash` terminal inside the running Docker image (use `docker ps --all` to find the image name, in my example the name was `hardcore_meninsky`). Run these commands:
+
+```
+mkdir -p /root/.ssh
+chmod 0700 /root/.ssh
+exit
+```
+
+Back in the host terminal, copy the ssh keys into the image:
+
+```
+docker cp ~/.ssh/id_rsa hardcore_meninsky:/root/.ssh/
+docker cp ~/.ssh/id_rsa.pub hardcore_meninsky:/root/.ssh/
+```
+
+4. Checkout your repo using the _Import from source control_ option.
+5. Once your repo is loaded, setup Android Studio with everything you need (plugins, settings, code style, etc).
+6. You might also want to download the sources for the Android SDK. Maybe compile the app once to make sure everything is fine.
+7. You might also want to setup the `local.properties` file in your checkout repo. Add the SDK and NDK paths:
 
 ```
 ndk.dir=/opt/android-ndk-linux
 sdk.dir=/opt/android-sdk-linux
 ```
 
-7. Quit Android Studio.
-8. In the host machine's terminal run `docker ps --all`. You'll see the Android Studio container (probably the top-most) in exited status. Copy it's name (last column). For example:
+8. Quit Android Studio.
+9. In the host machine's terminal run `docker ps --all`. You'll see the Android Studio container (probably the top-most) in exited status. Copy it's name (last column). For example:
 
 ```
 ➜ docker ps --all
@@ -77,5 +98,6 @@ CONTAINER ID        IMAGE                        COMMAND                  CREATE
 daffb7bbee3f        menny/android_studio:1.8.1   "/opt/android-stud..."   21 minutes ago      Exited (0) 11 seconds ago                          hardcore_meninsky
 ```
 
- 9. Commit that container into a new tag (let's say _warm_android_studio_): `docker commit hardcore_meninsky warm_android_studio`. This might take a while.
- 10. You're done! Next time, you can run your warm image: `docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix warm_android_studio`
+10. Commit that container into a new tag (let's say _warm_android_studio_): `docker commit hardcore_meninsky warm_android_studio`. This might take a while.
+11. You're done! Next time, you can run your warm image: `docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix warm_android_studio`
+12. Or you can also start the same container again: `docker start hardcore_meninsky`. This will start the container with all the changes you made.
