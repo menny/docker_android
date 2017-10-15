@@ -37,7 +37,7 @@ BASE_RUN_COMMAND="docker run -d --privileged --network=host -e DISPLAY=$ip:0 -v 
 
 case $1 in
     -n|--new)
-    ${BASE_RUN_COMMAND} menny/android_studio:1.8.1
+    ${BASE_RUN_COMMAND} menny/android_studio:1.8.2
     exit 0
     ;;
     -w|--warm)

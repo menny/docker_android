@@ -7,9 +7,12 @@ Like this (artifacts only in the screenshot, not in real life):
 
 ## Contains:
 
-* All the good staff from the [General Android image](https://github.com/menny/docker_android/blob/master/README.md)
-* All the good staff from the [NDK Android image](https://github.com/menny/docker_android/blob/master/android_ndk/README.md)
-* Android Studio 3.0.0 beta 7
+* All the good staff from the [General Android image](https://github.com/menny/docker_android/blob/master/README.md).
+* All the good staff from the [NDK Android image](https://github.com/menny/docker_android/blob/master/android_ndk/README.md).
+* Android Studio 3.0.0 RC1.
+* API 26 Sources.
+* X11 support.
+* [Links2](http://links.twibright.com/) - A very basic web-browser.
 
 ## Accepting licenses
 [Read](https://github.com/menny/docker_android/blob/master/README.md#accepting-licenses) about this at the general Android Docker image.

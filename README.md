@@ -10,6 +10,7 @@ My general usage (very up-to-date) Docker image for Android CI
 * SDK Tools 26.1.1
 * Build Tools 26.0.2
 * SDK API 26
+* Support, Google and Play-Services repositories
 
 ## Accepting licenses
 Getting an error when building Android with this Docker image? Something like this:
