@@ -17,7 +17,6 @@ then
         if [ open -a XQuartz ]
         then
             echo "Done."
-            sleep 3
         else
              echo "Failed to start XQuartz. Install via 'brew cask install xquartz'"
              exit 1
@@ -29,9 +28,7 @@ else
 fi
 
 export ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
-Echo 
 /opt/X11/bin/xhost + $ip
-sleep 1
 
 if [ "new" == "$1" ]; then
     shift # past action
