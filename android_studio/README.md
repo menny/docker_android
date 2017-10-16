@@ -107,3 +107,8 @@ daffb7bbee3f        menny/android_studio:1.8.1   "/opt/android-stud..."   21 min
 10. Commit that container into a new tag (let's say _warm_android_studio_): `docker commit hardcore_meninsky warm_android_studio`. This might take a while.
 11. You're done! Next time, you can run your warm image: `docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix warm_android_studio`
 12. Or you can also start the same container again: `docker start hardcore_meninsky`. This will start the container with all the changes you made.
+
+### More Pro Tips
+
+ - You can setup your container with `local.properties` values and copying rsa keys by calling `./setup_container.sh [container name] [repo folder]`.
+ - You can use the execution script `docker_as.sh`. This script will start a new container from `menny/android_studio`, or restart an already created container.
