@@ -46,13 +46,13 @@ ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 ```
 And run Android Studio:
 ```
-docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.1
+docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.1 /opt/android-studio/bin/studio.sh
 ```
 
 ### Running on Linux -- did not verify
 Probably just:
 ```
-docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.1
+docker run -d -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix menny/android_studio:1.8.1 /opt/android-studio/bin/studio.sh
 ```
 
 ### Running on Windows
@@ -60,7 +60,7 @@ No idea.
 
 ## Pro Tip
 The process above will give you a blank installation of Android Studio. It's a nice PoC, but the downside is that every time you start the Docker image, you start in the same blank state.<br/>
-My workflow is as follow:
+My work-flow is as follow:
 
 1. Start the Docker image
 2. Installation wizard will come up, follow all steps. Let it download what it needs.

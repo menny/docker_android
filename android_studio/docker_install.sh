@@ -20,12 +20,6 @@ else
     exit 1
 fi
 
-docker exec -it ${1} mkdir -p /root/.ssh
-docker exec -it ${1} chmod 0700 /root/.ssh
-docker cp ~/.ssh/id_rsa ${1}:/root/.ssh/
-docker cp ~/.ssh/id_rsa.pub ${1}:/root/.ssh/
-
-
-sdk.dir=/opt/android-sdk-linux
-docker exec -it ${1} ndk.dir=/opt/android-ndk-linux >> ${2}/local.properties
-docker exec -it ${1} sdk.dir=/opt/android-sdk-linux >> ${2}/local.properties
+docker exec -it ${1} bash -c "cd ${2} && ./gradlew :app:assembleDebug"
+docker cp ${1}:${2}/app/build/outputs/apk/debug/app-debug.apk ${TMPDIR}/app-debug.apk
+adb install -r ${TMPDIR}/app-debug.apk

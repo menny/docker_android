@@ -33,44 +33,54 @@ Echo
 /opt/X11/bin/xhost + $ip
 sleep 1
 
-BASE_RUN_COMMAND="docker run -d --privileged --network=host -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix"
-
-case $1 in
-    -n|--new)
-    ${BASE_RUN_COMMAND} menny/android_studio:1.8.2
-    exit 0
-    ;;
-    -w|--warm)
-    if [ "" == "$2" ]; then
-        echo "Please provide an image to run. Pick one:"
-        docker images
+if [ "new" == "$1" ]; then
+    shift # past action
+    
+    BASE_RUN_COMMAND="docker run -d --privileged --network=host -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix "
+    IMAGE_NAME="menny/android_studio:1.8.2-3.0.0-RC1"
+    ADDITIONAL_ARGS=""
+    
+    while [[ $# -gt 0 ]]
+    do
+    key="$1"
+    case $key in
+        -i|--image)
+        IMAGE_NAME="$2"
+        shift # past argument
+        shift # past value
+        if [ "" == "$IMAGE_NAME" ]; then
+            echo "Please provide an image name to start, or omit the -i argument to use the default."
+            exit 1
+        fi
+        ;;
+        -a|--docker_args)
+        ADDITIONAL_ARGS="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        *)    # unknown option
+        echo "Uknown option '$key' for action 'new'. Valid options:"
+        echo "-i|--image [image name]"
+        echo "-a|--docker_args [additional docker args]"
         exit 1
-    else
-        ${BASE_RUN_COMMAND} $2
-        exit 0
-    fi
-    ;;
-    -s|--start)
+        ;;
+    esac
+    done
+    ${BASE_RUN_COMMAND} ${ADDITIONAL_ARGS} ${IMAGE_NAME} /opt/android-studio/bin/studio.sh
+    exit 0
+elif [ "start" == "$1" ]; then
     if [ "" == "$2" ]; then
         echo "Please provide a container to start. Pick one:"
         docker ps --all
         exit 1
     else
         docker start $2
+        docker exec -e DISPLAY=$ip:0 $2 /opt/android-studio/bin/studio.sh
         exit 0
     fi
-    ;;
-    *)    # unknown option
-    echo ""
-    echo "You have not provided an action."
-    echo ""
-    echo "Create a new container based on 'menny/android_studio:1.8.1' image:"
-    echo "     $0 -n"
-    echo "Create a new container based on [image name]:"
-    echo "     $0 -w [image name]"
-    echo "Start a previously used container:"
-    echo "     $0 -s [container name]"
+else
+    echo "Unknown action, or none provided. Possible:"
+    echo "docker_as.sh new -i|--image [image name] -a|--docker_args [additional docker args]"
+    echo "docker_as.sh start [container name]"
     exit 1
-    ;;
-esac
-done
+fi

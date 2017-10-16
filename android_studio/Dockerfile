@@ -32,5 +32,3 @@ RUN apt-get install -qq -y --fix-missing links2 && \
     apt-get autoclean -qq -y && \
     apt-get autoremove -qq -y &&  \
     rm -rf /tmp/*
-
-ENTRYPOINT [ "/opt/android-studio/bin/studio.sh" ]
