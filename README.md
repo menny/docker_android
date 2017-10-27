@@ -3,11 +3,11 @@ My general usage (very up-to-date) Docker image for Android CI
 
 ## Contains:
 
-* Based on `ubuntu:16.04`
+* Based on `ubuntu:17.04`
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * Java8
-* Platform tools 26.0.0
-* SDK Tools 26.1.1
+* Platform tools 26.0.2
+* SDK Tools 26.0.2
 * Build Tools 26.0.2
 * SDK API 26
 * Support, Google and Play-Services repositories

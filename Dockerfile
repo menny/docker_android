@@ -1,7 +1,7 @@
-FROM ubuntu:16.04
+FROM ubuntu:17.04
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.8.2"
+LABEL version="1.9.0"
 LABEL description="A general use Android docker for CI"
 
 RUN apt-get update && apt-get install -y software-properties-common
