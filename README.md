@@ -12,6 +12,10 @@ My general usage (very up-to-date) Docker image for Android CI
 * SDK API 26
 * Support, Google and Play-Services repositories
 
+
+**NOTE:** This image does not contain NDK. You can use [this](https://github.com/menny/docker_android/tree/master/ndk) for an image with the latest NDK. Also, check out a _Proof-of-Concept_ [Docker image](https://github.com/menny/docker_android/tree/master/android_studio) that has Android Studio running inside Docker!
+
+
 ## Accepting licenses
 Getting an error when building Android with this Docker image? Something like this:
 ```
