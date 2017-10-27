@@ -4,7 +4,7 @@ AnySoftKeyboard general usage (very up-to-date) Docker image for Android with ND
 ## Contains:
 
 * All the good staff from the [General Android image](https://github.com/menny/docker_android/blob/master/README.md)
-* NDK 11c
+* NDK 14b - which supports Android API9+
 
 ## Accepting licenses
 [Read](https://github.com/menny/docker_android/blob/master/README.md#accepting-licenses) about this at the general Android Docker image.
