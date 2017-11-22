@@ -1,7 +1,7 @@
-FROM ubuntu:17.04
+#This line is automatically added by the build script
+#FROM ubuntu:17.04
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.9.0"
 LABEL description="A general use Android docker for CI"
 
 RUN apt-get update && apt-get install -y software-properties-common
@@ -50,13 +50,11 @@ RUN mkdir ~/.android && touch ~/.android/repositories.cfg
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "build-tools;26.0.2"
+RUN sdkmanager "build-tools;27.0.1"
 
 RUN sdkmanager "platform-tools" "tools"
 
 RUN sdkmanager "platforms;android-26"
-
-RUN sdkmanager "extras;android;m2repository" "extras;google;m2repository" "extras;google;google_play_services"
 
 RUN sdkmanager "patcher;v4"
 

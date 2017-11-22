@@ -1,4 +1,4 @@
-# Dockerfile for Android CI with NDK
+# Dockerfile for Android CI with NDK [![CircleCI](https://circleci.com/gh/menny/docker_android/tree/master.svg?style=svg)](https://circleci.com/gh/menny/docker_android/tree/master)
 My general usage (very up-to-date) Docker image for Android with latest NDK 
 
 ## Contains:

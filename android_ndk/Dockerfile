@@ -1,7 +1,7 @@
-FROM menny/android:1.9.0
+#This line is automatically added by the build script
+#FROM menny/android:1.9.1
 
 MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL version="1.9.0"
 LABEL description="A general use Android docker for CI with latest NDK"
 
 WORKDIR /opt

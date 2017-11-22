@@ -1,4 +1,4 @@
-# Dockerfile for Android CI with NDK for AnySoftKeyboard
+# Dockerfile for Android CI with NDK for AnySoftKeyboard [![CircleCI](https://circleci.com/gh/menny/docker_android/tree/master.svg?style=svg)](https://circleci.com/gh/menny/docker_android/tree/master)
 AnySoftKeyboard general usage (very up-to-date) Docker image for Android with NDK 
 
 ## Contains:

@@ -1,4 +1,4 @@
-# Dockerfile for Android CI
+# Dockerfile for Android CI [![CircleCI](https://circleci.com/gh/menny/docker_android/tree/master.svg?style=svg)](https://circleci.com/gh/menny/docker_android/tree/master)
 My general usage (very up-to-date) Docker image for Android CI
 
 ## Contains:
@@ -7,10 +7,9 @@ My general usage (very up-to-date) Docker image for Android CI
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * Java8
 * Platform tools 26.0.2
-* SDK Tools 26.0.2
-* Build Tools 26.0.2
+* SDK Tools 26.1.1
+* Build Tools 27.0.1
 * SDK API 26
-* Support, Google and Play-Services repositories
 
 
 **NOTE:** This image does not contain NDK. You can use [this](https://github.com/menny/docker_android/tree/master/ndk) for an image with the latest NDK. Also, check out a _Proof-of-Concept_ [Docker image](https://github.com/menny/docker_android/tree/master/android_studio) that has Android Studio running inside Docker!

@@ -1,0 +1,121 @@
+version: 2
+
+references:
+  container_config: &container_config
+    machine:
+      services:
+        - docker
+    environment:
+      TERM: dumb
+      IMAGE_VERSION: 1.9.1
+
+jobs:
+  build_generic:
+    <<: *container_config
+    steps:
+      - checkout
+      - run:
+          name: Labeling generic Docker build file
+          command: echo FROM ubuntu:17.04 > tmp &&
+                   echo LABEL version=\"${IMAGE_VERSION}\" >> tmp &&
+                   cat Dockerfile >> tmp &&
+                   mv tmp Dockerfile
+      - store_artifacts:
+          path: Dockerfile
+          destination: docker-files/generic/
+      - run:
+          name: Build generic CI image
+          command: docker build . -t menny/android:${IMAGE_VERSION} && docker build . -t menny/android:latest
+      - run:
+          name: Push generic image to Docker
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+                   docker push menny/android:${IMAGE_VERSION} &&
+                   docker push menny/android:latest
+          
+  build_latest_ndk:
+    <<: *container_config
+    steps:
+      - checkout
+      - run:
+          name: Labeling android_ndk Docker build file
+          command: echo FROM menny/android:${IMAGE_VERSION} > tmp &&
+                   echo LABEL version=\"${IMAGE_VERSION}\" >> tmp &&
+                   cat android_ndk/Dockerfile >> tmp &&
+                   mv tmp android_ndk/Dockerfile &&
+                   cat android_ndk/Dockerfile
+      - store_artifacts:
+          path: android_ndk/Dockerfile
+          destination: docker-files/android_ndk/
+      - run:
+          name: Build android_ndk CI image
+          command: docker build android_ndk/ -t menny/android_ndk:${IMAGE_VERSION} &&
+                   docker build android_ndk/ -t menny/android_ndk:latest
+      - run:
+          name: Push android_ndk image to Docker
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+                   docker push menny/android_ndk:${IMAGE_VERSION} &&
+                   docker push menny/android_ndk:latest
+
+  build_ask_ndk:
+    <<: *container_config
+    steps:
+      - checkout
+      - run:
+          name: Labeling ndk_ask Docker build file
+          command: echo FROM menny/android:${IMAGE_VERSION} > tmp &&
+                   echo LABEL version=\"${IMAGE_VERSION}\" >> tmp &&
+                   cat ndk_ask/Dockerfile >> tmp &&
+                   mv tmp ndk_ask/Dockerfile
+      - store_artifacts:
+          path: ndk-ask/Dockerfile
+          destination: docker-files/ndk_ask/
+      - run:
+          name: Build ndk_ask CI image
+          command: docker build ndk_ask/ -t menny/ndk_ask:${IMAGE_VERSION} &&
+                   docker build ndk_ask/ -t menny/ndk_ask:latest
+      - run:
+          name: Push ndk_ask image to Docker
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS &&
+                   docker push menny/ndk_ask:${IMAGE_VERSION} &&
+                   docker push menny/ndk_ask:latest
+
+  tag_at_repo:
+    <<: *container_config
+    steps:
+      - checkout
+      - run:
+          name: Tagging successful build
+          command: git config --global user.email "circleci@evendanan.net" &&
+                   git config --global user.name "Circle CI" &&
+                   git tag -a ${IMAGE_VERSION} -m "Deployed" &&
+                   git push --tags origin &&
+                   git tag
+
+workflows:
+  version: 2
+  build_all_images:
+    jobs:
+      - build_generic:
+          filters:
+            branches:
+              only: master
+      - build_latest_ndk:
+          requires:
+            - build_generic
+          filters:
+            branches:
+              only: master
+      - build_ask_ndk:
+          requires:
+            - build_generic
+          filters:
+            branches:
+              only: master
+      - tag_at_repo:
+          requires:
+            - build_generic
+            - build_ask_ndk
+            - build_latest_ndk
+          filters:
+            branches:
+              only: master
