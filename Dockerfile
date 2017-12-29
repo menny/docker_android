@@ -50,11 +50,11 @@ RUN mkdir ~/.android && touch ~/.android/repositories.cfg
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "build-tools;27.0.1"
+RUN sdkmanager "build-tools;27.0.2"
 
 RUN sdkmanager "platform-tools" "tools"
 
-RUN sdkmanager "platforms;android-26"
+RUN sdkmanager "platforms;android-27"
 
 RUN sdkmanager "patcher;v4"
 

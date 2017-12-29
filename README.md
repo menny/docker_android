@@ -8,7 +8,7 @@ My general usage (very up-to-date) Docker image for Android CI
 * Java8
 * Platform tools 26.0.2
 * SDK Tools 26.1.1
-* Build Tools 27.0.1
+* Build Tools 27.0.2
 * SDK API 26
 
 
