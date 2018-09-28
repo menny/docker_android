@@ -7,7 +7,7 @@ LABEL description="A general use Android docker for CI with latest NDK"
 WORKDIR /opt
 
 # Install Android NDK
-RUN wget --output-document=android-ndk.zip --quiet https://dl.google.com/android/repository/android-ndk-r18-linux-x86_64.zip && unzip android-ndk.zip && rm -f android-ndk.zip && mv android-ndk-r16b android-ndk-linux
+RUN wget --output-document=android-ndk.zip --quiet https://dl.google.com/android/repository/android-ndk-r18-linux-x86_64.zip && unzip android-ndk.zip && rm -f android-ndk.zip && mv android-ndk-r18 android-ndk-linux
 
 # More environment
 ENV ANDROID_NDK /opt/android-ndk-linux

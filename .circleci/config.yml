@@ -7,7 +7,7 @@ references:
         - docker
     environment:
       TERM: dumb
-      IMAGE_VERSION: 1.9.5
+      IMAGE_VERSION: 1.9.6
 
 jobs:
   build_generic:
@@ -25,15 +25,20 @@ jobs:
           path: Dockerfile
           destination: docker-files/generic/
       - run:
+          name: set docker daemon to experimental
+          command: |
+            sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
+            sudo service docker restart
+      - run:
           name: Build generic CI image
           command: |
-            docker build . -t menny/android:${IMAGE_VERSION}
-            docker build . -t menny/android:latest
+            docker build . --squash -t menny/android:${IMAGE_VERSION}
       - run:
           name: Push generic image to Docker
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push menny/android:${IMAGE_VERSION}
+            docker image tag menny/android:${IMAGE_VERSION} menny/android:latest
             docker push menny/android:latest
           
   build_latest_ndk:
@@ -52,15 +57,20 @@ jobs:
           path: android_ndk/Dockerfile
           destination: docker-files/android_ndk/
       - run:
+          name: set docker daemon to experimental
+          command: |
+            sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
+            sudo service docker restart
+      - run:
           name: Build android_ndk CI image
           command: |
-            docker build android_ndk/ -t menny/android_ndk:${IMAGE_VERSION}
-            docker build android_ndk/ -t menny/android_ndk:latest
+            docker build android_ndk/ --squash -t menny/android_ndk:${IMAGE_VERSION}
       - run:
           name: Push android_ndk image to Docker
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push menny/android_ndk:${IMAGE_VERSION}
+            docker image tag menny/android_ndk:${IMAGE_VERSION} menny/android_ndk:latest
             docker push menny/android_ndk:latest
 
   build_ask_ndk:
@@ -78,15 +88,20 @@ jobs:
           path: ndk-ask/Dockerfile
           destination: docker-files/ndk_ask/
       - run:
+          name: set docker daemon to experimental
+          command: |
+            sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
+            sudo service docker restart
+      - run:
           name: Build ndk_ask CI image
           command: |
-            docker build ndk_ask/ -t menny/ndk_ask:${IMAGE_VERSION}
-            docker build ndk_ask/ -t menny/ndk_ask:latest
+            docker build ndk_ask/ --squash -t menny/ndk_ask:${IMAGE_VERSION}
       - run:
           name: Push ndk_ask image to Docker
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push menny/ndk_ask:${IMAGE_VERSION}
+            docker image tag menny/ndk_ask:${IMAGE_VERSION} menny/ndk_ask:latest
             docker push menny/ndk_ask:latest
 
   tag_at_repo:
