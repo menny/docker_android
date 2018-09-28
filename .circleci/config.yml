@@ -7,7 +7,7 @@ references:
         - docker
     environment:
       TERM: dumb
-      IMAGE_VERSION: 1.9.6
+      IMAGE_VERSION: 1.9.7
 
 jobs:
   build_generic:
@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Build generic CI image
           command: |
-            docker build . --squash -t menny/android:${IMAGE_VERSION}
+            docker build . --compress --squash -t menny/android:${IMAGE_VERSION}
       - run:
           name: Push generic image to Docker
           command: |
@@ -64,7 +64,7 @@ jobs:
       - run:
           name: Build android_ndk CI image
           command: |
-            docker build android_ndk/ --squash -t menny/android_ndk:${IMAGE_VERSION}
+            docker build android_ndk/ --compress --squash -t menny/android_ndk:${IMAGE_VERSION}
       - run:
           name: Push android_ndk image to Docker
           command: |
@@ -95,7 +95,7 @@ jobs:
       - run:
           name: Build ndk_ask CI image
           command: |
-            docker build ndk_ask/ --squash -t menny/ndk_ask:${IMAGE_VERSION}
+            docker build ndk_ask/ --compress --squash -t menny/ndk_ask:${IMAGE_VERSION}
       - run:
           name: Push ndk_ask image to Docker
           command: |
