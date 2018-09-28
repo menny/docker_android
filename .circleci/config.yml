@@ -7,7 +7,7 @@ references:
         - docker
     environment:
       TERM: dumb
-      IMAGE_VERSION: 1.9.7
+      IMAGE_VERSION: 1.9.8
 
 jobs:
   build_generic:
