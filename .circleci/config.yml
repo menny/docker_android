@@ -7,7 +7,7 @@ references:
         - docker
     environment:
       TERM: dumb
-      IMAGE_VERSION: 1.9.4
+      IMAGE_VERSION: 1.9.5
 
 jobs:
   build_generic:
@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Labeling generic Docker build file
           command: |
-            echo FROM ubuntu:17.04 > tmp
+            echo FROM ubuntu:18.04 > tmp
             echo LABEL version=\"${IMAGE_VERSION}\" >> tmp
             cat Dockerfile >> tmp
             mv tmp Dockerfile
