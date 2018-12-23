@@ -1,20 +1,23 @@
-#This line is automatically added by the build script
-#FROM menny/android:1.9.1
+ARG IMAGE_VERSION
+FROM menny/android:${IMAGE_VERSION}
 
-MAINTAINER Menny Even-Danan "menny@evendanan.net"
-LABEL description="A general use Android docker for CI with latest NDK"
+ARG IMAGE_VERSION
+ARG NDK_VERSION
+LABEL description="A general use Android docker for CI with NDK ${NDK_VERSION}"
+LABEL version="${IMAGE_VERSION}"
+LABEL maintainer="menny@evendanan.net"
 
 WORKDIR /opt
 
 # Install Android NDK
-RUN wget --output-document=android-ndk.zip --quiet https://dl.google.com/android/repository/android-ndk-r18-linux-x86_64.zip
-RUN unzip android-ndk.zip
-RUN rm -f android-ndk.zip
-RUN mv android-ndk-r18 android-ndk-linux
+ADD https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-linux-x86_64.zip /opt/android-ndk.zip
+RUN unzip android-ndk.zip -d /opt/ndks
+RUN rm -f unzip android-ndk.zip
+RUN cat /opt/ndks/android-ndk-${NDK_VERSION}/source.properties
 
 # More environment
-ENV ANDROID_NDK /opt/android-ndk-linux
-ENV ANDROID_NDK_HOME /opt/android-ndk-linux
+ENV ANDROID_NDK /opt/ndks/android-ndk-${NDK_VERSION}
+ENV ANDROID_NDK_HOME /opt/ndks/android-ndk-${NDK_VERSION}
 
 # GO to workspace
 WORKDIR /opt/workspace

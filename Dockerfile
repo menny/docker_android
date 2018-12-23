@@ -1,8 +1,9 @@
-#This line is automatically added by the build script
-#FROM ubuntu:17.04
+FROM ubuntu:18.04
+ARG IMAGE_VERSION
 
-MAINTAINER Menny Even-Danan "menny@evendanan.net"
 LABEL description="A general use Android docker for CI"
+LABEL version="${IMAGE_VERSION}"
+LABEL maintainer="menny@evendanan.net"
 
 RUN apt-get update && apt-get install -y software-properties-common
 # Install Deps and build-essential
@@ -40,10 +41,9 @@ RUN rm -rf /var/cache/oracle-jdk8-installer
 RUN java -version
 
 # Install Android SDK
-RUN wget --output-document=android-sdk.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-RUN mkdir /opt/android-sdk-linux
-RUN unzip android-sdk.zip -d /opt/android-sdk-linux
-RUN rm -f android-sdk.zip
+ADD https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip downloaded_sdk.zip
+RUN unzip downloaded_sdk.zip -d /opt/android-sdk-linux
+RUN rm -f downloaded_sdk.zip
 
 RUN mkdir ~/.android && touch ~/.android/repositories.cfg
 #accepting licenses
