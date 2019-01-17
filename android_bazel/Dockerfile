@@ -5,7 +5,7 @@ ARG IMAGE_VERSION
 ARG BAZEL_VERSION
 
 LABEL description="A general use Android docker for CI with Bazel version ${BAZEL_VERSION}"
-LABEL version="${IMAGE_VERSION}"
+LABEL version="${IMAGE_VERSION}-${BAZEL_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
 
