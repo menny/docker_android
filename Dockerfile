@@ -8,8 +8,12 @@ LABEL maintainer="menny@evendanan.net"
 RUN apt-get update && apt-get install -y software-properties-common
 # Install Deps and build-essential
 RUN dpkg --add-architecture i386
+# and also open-jdk
+RUN add-apt-repository -y ppa:openjdk-r/ppa
 RUN apt-get update
-RUN apt-get install -y locales ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl psmisc module-init-tools python-pip
+RUN apt-get install -y locales ca-certificates nano rsync sudo zip git build-essential wget libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python curl psmisc module-init-tools python-pip openjdk-8-jdk
+RUN update-alternatives --config java
+RUN update-alternatives --config javac
 RUN apt-get clean
 
 RUN locale-gen en_US.UTF-8
@@ -28,15 +32,7 @@ RUN chmod +x /opt/tools/start_emulator.sh
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
 ENV JAVA_VERSION 1.8
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle/
-
-# Install java8
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends oracle-java8-installer
-RUN apt-get install -y --no-install-recommends oracle-java8-set-default
-RUN rm -rf /var/cache/oracle-jdk8-installer
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
 
 RUN java -version
 

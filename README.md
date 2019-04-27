@@ -5,7 +5,7 @@ My general usage (very up-to-date) Docker image for Android CI
 
 * Based on `ubuntu:18.04`
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
-* Java8
+* OpenJDK8 - with Docker resources fix
 * Platform tools 28.0.1
 * SDK Tools 26.1.1
 * Build Tools 28.0.3
