@@ -54,6 +54,7 @@ RUN sdkmanager "build-tools;29.0.1"
 RUN sdkmanager "platform-tools" "tools"
 
 RUN sdkmanager "platforms;android-29"
+RUN sdkmanager "platforms;android-28"
 
 RUN sdkmanager "patcher;v4"
 
