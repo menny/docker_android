@@ -5,10 +5,10 @@ My general usage (very up-to-date) Docker image for Android CI
 
 * Based on `ubuntu:18.04`
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
-* AdoptJDK9 - https://github.com/AdoptOpenJDK
-* Platform tools 29.0.1
+* AdoptJDK10 - https://github.com/AdoptOpenJDK
+* Platform tools 29.0.4
 * SDK Tools 26.1.1
-* Build Tools 29.0.1
+* Build Tools 29.0.2
 * SDK API 28 & 29
 * Compressed and squashed into one layer.
 

@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk9:x86_64-ubuntu-jdk-9.0.4.11-slim
+FROM adoptopenjdk/openjdk10:x86_64-ubuntu-jdk-10.0.2.13-slim
 ARG IMAGE_VERSION
 
 LABEL description="A general use Android docker for CI"
@@ -24,11 +24,6 @@ WORKDIR /opt
 COPY tools /opt/tools
 RUN chmod +x /opt/tools/start_emulator.sh
 
-#set up all the required certificates
-# It seems that Adopt OpenJDK does not have all the required certificates to perform SSL verifications
-# So, copying the certificates from JDK8
-RUN mv /opt/tools/cacerts /opt/java/openjdk/lib/security/cacerts
-
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
@@ -49,7 +44,7 @@ ENV JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "build-tools;29.0.1"
+RUN sdkmanager "build-tools;29.0.2"
 
 RUN sdkmanager "platform-tools" "tools"
 
