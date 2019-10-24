@@ -24,6 +24,11 @@ WORKDIR /opt
 COPY tools /opt/tools
 RUN chmod +x /opt/tools/start_emulator.sh
 
+#set up all the required certificates
+# It seems that Adopt OpenJDK does not have all the required certificates to perform SSL verifications	
+# So, copying the certificates from JDK8
+RUN mv /opt/tools/cacerts /opt/java/openjdk/lib/security/cacerts
+
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
