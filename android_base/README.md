@@ -1,24 +1,13 @@
 # Dockerfile for Android CI [![CircleCI](https://circleci.com/gh/menny/docker_android/tree/master.svg?style=svg)](https://circleci.com/gh/menny/docker_android/tree/master)
-My general usage (very up-to-date) Docker image for Android CI
+My general usage (very up-to-date) Docker image for Android CI. Without anything other than the bare SDK.
 
 ## Contains:
 
 * Based on `ubuntu:18.04`
-* with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
+* with wget, curl, zip, python, python3, pip, rsyslog, git, make, gcc (and other build-essential)
 * AdoptJDK10 - https://github.com/AdoptOpenJDK (including CA Root Certificates)
 * Platform tools 29.0.4
-* SDK Tools 26.1.1
-* Build Tools 29.0.2
-* SDK API 28 & 29
 * Compressed and squashed into one layer.
-
-**NOTE:** This image does not contain NDK. You can use [this](https://github.com/menny/docker_android/tree/master/ndk) for an image with the latest NDK. Also, check out a _Proof-of-Concept_ [Docker image](https://github.com/menny/docker_android/tree/master/android_studio) that has Android Studio running inside Docker!
-
-# Other images:
-
-* An even slimmer [image](android_base/) (without the APIs and Build-Tools).
-* Android latest SDK and latest NDK [image](android_ndk/).
-* Android latest SDK and latest Bazel [image](android_bazel/).
 
 ## Accepting licenses
 Getting an error when building Android with this Docker image? Something like this:
@@ -46,11 +35,11 @@ Also, due to a known [bug](https://code.google.com/p/android/issues/detail?id=21
 ```    
 
 ## Common commands
-Build image: `docker build -t menny/android:latest .`
+Build image: `docker build -t menny/android_base:latest .`
 
-Pull from Docker Hub: `docker pull menny/android:latest`
+Pull from Docker Hub: `docker pull menny/android_base:latest`
 
-To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android:latest`
+To run image (and attach to STDIN/STDOUT): `docker run -i -t menny/android_base:latest`
 
 ## General Docker commands:
 To stop *all* Docker containers: `docker stop $(docker ps -a -q)`

@@ -7,7 +7,7 @@ references:
         - docker
   base_environment: &base_environment
       TERM: dumb
-      IMAGE_VERSION: 1.13.2
+      IMAGE_VERSION: 1.13.3
 
   steps: &steps
     steps:
@@ -30,6 +30,14 @@ references:
             docker push menny/${IMAGE_NAME}:latest
 
 jobs:
+  build_base:
+    <<: *container_config
+    environment:
+      <<: *base_environment
+      IMAGE_NAME: android_base
+      DOCKER_FILE_PATH: android_base/.
+    <<: *steps
+
   build_generic:
     <<: *container_config
     environment:
@@ -83,7 +91,13 @@ workflows:
   version: 2
   build_all_images:
     jobs:
+      - build_base:
+          filters:
+            branches:
+              only: master
       - build_generic:
+          requires:
+            - build_base
           filters:
             branches:
               only: master
