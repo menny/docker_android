@@ -5,14 +5,18 @@ LABEL description="A general use Android docker for CI"
 LABEL version="${IMAGE_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
-RUN apt-get update && apt-get install -y --allow-remove-essential --allow-change-held-packages software-properties-common
 # Install Deps and build-essential
 RUN dpkg --add-architecture i386
 RUN apt-get update
 RUN apt-get install -y --allow-remove-essential --allow-change-held-packages \
-    locales ca-certificates nano rsync sudo zip git build-essential wget \
-    libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 python python python3 curl psmisc module-init-tools python-pip python-lxml python-yaml \
-    rsyslog jq
+    software-properties-common locales ca-certificates build-essential \
+    libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 \
+    python python3 python3-pip module-init-tools python-pip python-lxml python-yaml \
+    wget curl nano rsync sudo zip psmisc rsyslog jq
+# this is required for the latest git (ubuntu's official git is quite old)
+RUN add-apt-repository ppa:git-core/ppa -y
+RUN apt-get install -y --allow-remove-essential --allow-change-held-packages git
+
 RUN apt-get clean
 
 RUN touch /var/log/kern.log ; chown syslog:adm /var/log/kern.log
