@@ -14,7 +14,6 @@ WORKDIR /opt
 # removing unsupported OpenJDK arg
 ENV JAVA_TOOL_OPTIONS=""
 # Install Bazel
-RUN sudo apt-get install -y pkg-config zip g++ zlib1g-dev unzip python
 ADD https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh /opt/
 RUN chmod +x /opt/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh
 RUN ./bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh --user

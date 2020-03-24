@@ -9,10 +9,10 @@ LABEL maintainer="menny@evendanan.net"
 RUN dpkg --add-architecture i386
 RUN apt-get update
 RUN apt-get install -y --allow-remove-essential --allow-change-held-packages \
-    software-properties-common locales ca-certificates build-essential \
-    libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 \
+    software-properties-common locales ca-certificates build-essential zlib1g-dev \
+    libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 pkg-config g++ \
     python python3 python3-pip module-init-tools python-pip python-lxml python-yaml \
-    wget curl nano rsync sudo zip psmisc rsyslog jq
+    wget curl nano rsync sudo zip psmisc rsyslog jq unzip
 # this is required for the latest git (ubuntu's official git is quite old)
 RUN add-apt-repository ppa:git-core/ppa -y
 RUN apt-get install -y --allow-remove-essential --allow-change-held-packages git
