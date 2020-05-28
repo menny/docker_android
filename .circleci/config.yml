@@ -7,7 +7,7 @@ references:
         - docker
   base_environment: &base_environment
       TERM: dumb
-      IMAGE_VERSION: 1.13.7
+      IMAGE_VERSION: 1.13.8
 
   steps: &steps
     steps:
@@ -20,7 +20,7 @@ references:
       - run:
           name: Build Docker image
           command: |-
-            docker build ${DOCKER_FILE_PATH} --build-arg IMAGE_VERSION=${IMAGE_VERSION} --build-arg NDK_VERSION=${NDK_VERSION} --build-arg BAZEL_VERSION=${BAZEL_VERSION} --compress --squash -t menny/${IMAGE_NAME}:${IMAGE_VERSION}
+            docker build ${DOCKER_FILE_PATH} --build-arg IMAGE_VERSION=${IMAGE_VERSION} --build-arg NDK_VERSION=${NDK_VERSION} --build-arg BAZELISK_VERSION=${BAZELISK_VERSION} --compress --squash -t menny/${IMAGE_NAME}:${IMAGE_VERSION}
       - run:
           name: Push image to Docker
           command: |-
@@ -70,7 +70,7 @@ jobs:
       <<: *base_environment
       IMAGE_NAME: android_bazel
       DOCKER_FILE_PATH: android_bazel/.
-      BAZEL_VERSION: 2.2.0
+      BAZELISK_VERSION: v1.4.0
     <<: *steps
 
   tag_at_repo:
