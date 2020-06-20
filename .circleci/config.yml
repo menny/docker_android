@@ -7,7 +7,7 @@ references:
         - docker
   base_environment: &base_environment
       TERM: dumb
-      IMAGE_VERSION: 1.13.8
+      IMAGE_VERSION: 1.14.0
 
   steps: &steps
     steps:
@@ -70,7 +70,7 @@ jobs:
       <<: *base_environment
       IMAGE_NAME: android_bazel
       DOCKER_FILE_PATH: android_bazel/.
-      BAZELISK_VERSION: v1.4.0
+      BAZELISK_VERSION: v1.5.0
     <<: *steps
 
   tag_at_repo:

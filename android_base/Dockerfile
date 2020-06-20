@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk10:x86_64-ubuntu-jdk-10.0.2.13-slim
+FROM adoptopenjdk/openjdk11:jdk-11.0.7_10-ubuntu-slim
 ARG IMAGE_VERSION
 
 LABEL description="A general use Android docker for CI"
@@ -33,32 +33,24 @@ WORKDIR /opt
 COPY tools /opt/tools
 RUN chmod +x /opt/tools/start_emulator.sh
 
-#set up all the required certificates
-# It seems that Adopt OpenJDK does not have all the required certificates to perform SSL verifications	
-# So, copying the certificates from JDK8
-RUN mv /opt/tools/cacerts /opt/java/openjdk/lib/security/cacerts
-
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
-ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/tools:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/platform-tools
 
 RUN java -version
 
 # Install Android SDK
-ADD https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip downloaded_sdk.zip
-RUN unzip downloaded_sdk.zip -d /opt/android-sdk-linux
+ADD https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip downloaded_sdk.zip
+RUN mkdir -p /opt/android-sdk-linux/cmdline-tools
+RUN unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools
 RUN rm -f downloaded_sdk.zip
-
-RUN mkdir ~/.android && touch ~/.android/repositories.cfg
-
-#backward compatible for missing libs in java8
-ENV JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
 
 #accepting licenses
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "platform-tools" "tools"
+RUN sdkmanager "cmdline-tools;2.0"
+RUN sdkmanager "platform-tools"
 RUN sdkmanager "patcher;v4"
 
 # Updating everything again
