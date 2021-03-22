@@ -11,7 +11,6 @@ LABEL maintainer="menny@evendanan.net"
 RUN sdkmanager "build-tools;30.0.0"
 
 RUN sdkmanager "platforms;android-30"
-RUN sdkmanager "platforms;android-28"
 
 RUN sdkmanager "patcher;v4"
 

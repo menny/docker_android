@@ -7,8 +7,8 @@ My general usage (very up-to-date) Docker image for Android CI
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * AdoptJDK11 - https://github.com/AdoptOpenJDK
 * Platform tools 30.0.3
-* Build Tools 30.0.0
-* SDK API 28 & 30
+* Build Tools 30.0.3
+* SDK API 30
 * Compressed and squashed into one layer.
 
 **NOTE:** This image does not contain NDK. You can use [this](https://github.com/menny/docker_android/tree/master/android_ndk) for an image with the latest NDK. Also, check out a _Proof-of-Concept_ [Docker image](https://github.com/menny/docker_android/tree/master/android_studio) that has Android Studio running inside Docker!

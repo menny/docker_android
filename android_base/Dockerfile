@@ -35,21 +35,22 @@ RUN chmod +x /opt/tools/start_emulator.sh
 
 # Setup environment
 ENV ANDROID_HOME /opt/android-sdk-linux
-ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/tools:${ANDROID_HOME}/cmdline-tools/tools/bin:${ANDROID_HOME}/platform-tools
+ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
 
 RUN java -version
 
 # Install Android SDK
-ADD https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip downloaded_sdk.zip
+ADD https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip downloaded_sdk.zip
 RUN mkdir -p /opt/android-sdk-linux/cmdline-tools
 RUN unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools
 RUN rm -f downloaded_sdk.zip
+RUN mv /opt/android-sdk-linux/cmdline-tools/cmdline-tools /opt/android-sdk-linux/cmdline-tools/latest
 
 #accepting licenses
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "cmdline-tools;2.0"
+RUN sdkmanager "cmdline-tools;3.0"
 RUN sdkmanager "platform-tools"
 RUN sdkmanager "patcher;v4"
 
