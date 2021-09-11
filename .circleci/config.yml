@@ -7,7 +7,7 @@ references:
         - docker
   base_environment: &base_environment
       TERM: dumb
-      IMAGE_VERSION: 1.15.1
+      IMAGE_VERSION: 1.15.2
 
   steps: &steps
     steps:
@@ -51,7 +51,7 @@ jobs:
     environment:
       <<: *base_environment
       IMAGE_NAME: android_ndk
-      NDK_VERSION: 22.0.7026061
+      NDK_VERSION: 23.0.7599858
       DOCKER_FILE_PATH: android_ndk/.
     <<: *steps
 
@@ -61,7 +61,7 @@ jobs:
       <<: *base_environment
       IMAGE_NAME: android_bazel
       DOCKER_FILE_PATH: android_bazel/.
-      BAZELISK_VERSION: v1.7.5
+      BAZELISK_VERSION: v1.10.1
     <<: *steps
 
   tag_at_repo:
