@@ -7,7 +7,7 @@ references:
         - docker
   base_environment: &base_environment
       TERM: dumb
-      IMAGE_VERSION: 1.15.2
+      IMAGE_VERSION: 1.15.3
 
   steps: &steps
     steps:
