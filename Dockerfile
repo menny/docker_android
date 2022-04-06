@@ -8,12 +8,9 @@ LABEL version="${IMAGE_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "build-tools;31.0.0"
-# Fixing missing dx files
-RUN cp /opt/android-sdk-linux/build-tools/31.0.0/d8 /opt/android-sdk-linux/build-tools/31.0.0/dx
-RUN cp /opt/android-sdk-linux/build-tools/31.0.0/lib/d8.jar /opt/android-sdk-linux/build-tools/31.0.0/lib/dx.jar
+RUN sdkmanager "build-tools;32.0.0"
 
-RUN sdkmanager "platforms;android-31"
+RUN sdkmanager "platforms;android-32"
 
 RUN sdkmanager "patcher;v4"
 

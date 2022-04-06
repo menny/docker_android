@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get install -y --allow-remove-essential --allow-change-held-packages \
     software-properties-common locales ca-certificates build-essential zlib1g-dev \
     libc6-i386 lib32stdc++6 lib32gcc1 lib32z1 pkg-config g++ \
-    python python3 python3-pip python-lxml python-yaml \
+    python python3 python3-pip python-lxml python-yaml libxml2-utils \
     wget curl nano rsync sudo zip psmisc rsyslog jq unzip
 # this is required for the latest git (ubuntu's official git is quite old)
 RUN add-apt-repository ppa:git-core/ppa -y
@@ -40,7 +40,7 @@ ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platfo
 RUN java -version
 
 # Install Android SDK
-ADD https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip downloaded_sdk.zip
+ADD https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip downloaded_sdk.zip
 RUN mkdir -p /opt/android-sdk-linux/cmdline-tools
 RUN unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools
 RUN rm -f downloaded_sdk.zip
@@ -50,7 +50,7 @@ RUN mv /opt/android-sdk-linux/cmdline-tools/cmdline-tools /opt/android-sdk-linux
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "cmdline-tools;5.0"
+RUN sdkmanager "cmdline-tools;6.0"
 RUN sdkmanager "platform-tools"
 RUN sdkmanager "patcher;v4"
 

@@ -6,10 +6,10 @@ My general usage (very up-to-date) Docker image for Android CI
 * Based on `adoptopenjdk/openjdk11:jdk-11.0.12_7-ubuntu-slim` - Ubuntu 20.04 with AdoptOpenJDK 11
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * AdoptJDK11 - https://github.com/AdoptOpenJDK
-* cmdline tools 5.0
-* Platform tools 31.0.3
-* Build Tools 31.0.0
-* SDK API 31
+* cmdline tools 6.0
+* Platform tools 32.0.0
+* Build Tools 32.0.0
+* SDK API 32
 * Compressed and squashed into one layer.
 
 **NOTE:** This image does not contain NDK. You can use [this](https://github.com/menny/docker_android/tree/master/android_ndk) for an image with the latest NDK. Also, check out a _Proof-of-Concept_ [Docker image](https://github.com/menny/docker_android/tree/master/android_studio) that has Android Studio running inside Docker!
