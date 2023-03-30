@@ -1,0 +1,20 @@
+name: pre_merge_checks
+on:
+  pull_request:
+    branches:
+      - '*'
+
+env:
+  TERM: dumb
+  IMAGE_VERSION: 9.99.9
+jobs:
+  sanity:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - name: Base Android image
+      run: IMAGE_NAME="android_base" DOCKER_FILE_PATH="android_base/." ./.github/docker_build_image.sh
+    - name: Android image with some tools
+      run: IMAGE_NAME="android" DOCKER_FILE_PATH="." ./.github/docker_build_image.sh
+    - name: Android and NDK image
+      run: IMAGE_NAME="android_ndk" NDK_VERSION="23.0.7599858" DOCKER_FILE_PATH="android_ndk/." ./.github/docker_build_image.sh
