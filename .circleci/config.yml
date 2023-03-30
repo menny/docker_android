@@ -2,9 +2,8 @@ version: 2
 
 references:
   container_config: &container_config
-    machine:
-      services:
-        - docker
+    docker:
+      - image: menny/android_bazel:1.13.8
   base_environment: &base_environment
       TERM: dumb
       IMAGE_VERSION: 1.15.5
