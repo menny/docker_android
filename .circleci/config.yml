@@ -12,11 +12,13 @@ references:
   steps: &steps
     steps:
       - checkout
-      - run:
-          name: set docker daemon to experimental
-          command: |-
-            sudo sh -c 'echo '\''DOCKER_OPTS="--experimental=true"'\'' >> /etc/default/docker'
-            sudo service docker restart
+      - setup_remote_docker:
+        version: 18.09.3
+      - run: |
+            ssh remote-docker \<<EOF
+              sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
+              sudo systemctl restart docker
+            EOF
       - run:
           name: Build Docker image
           command: |-
