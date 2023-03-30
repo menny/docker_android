@@ -1,142 +1,80 @@
-name: menny/docker_android/build_all_images
+name: build_all_images
 on:
   push:
     branches:
     - master
 env:
-  DOCKER_EMAIL: xxxx.net
-  DOCKER_PASS: xxxxacfd
-  DOCKER_USER: xxxxny
+  DOCKER_EMAIL: ${{ secrets.DOCKER_EMAIL }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  TERM: dumb
+  IMAGE_VERSION: 1.16.0
 jobs:
   build_base:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     container:
       image: menny/android_bazel:1.13.8
     env:
-      TERM: dumb
-      IMAGE_VERSION: 1.15.5
       IMAGE_NAME: android_base
       DOCKER_FILE_PATH: android_base/.
     steps:
-#     # 'setup_remote_docker' was not transformed because there is no suitable equivalent in GitHub Actions
     - uses: actions/checkout@v3.5.0
-    - run: |
-        ssh remote-docker \<<EOF
-          sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
-          sudo systemctl restart docker
-        EOF
-    - name: Build Docker image
-      run: docker build ${DOCKER_FILE_PATH} --build-arg IMAGE_VERSION=${IMAGE_VERSION} --build-arg NDK_VERSION=${NDK_VERSION} --build-arg BAZELISK_VERSION=${BAZELISK_VERSION} --compress --squash -t menny/${IMAGE_NAME}:${IMAGE_VERSION}
-    - name: Push image to Docker
-      run: |-
-        docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-        docker push menny/${IMAGE_NAME}:${IMAGE_VERSION}
-        docker image tag menny/${IMAGE_NAME}:${IMAGE_VERSION} menny/${IMAGE_NAME}:latest
-        docker push menny/${IMAGE_NAME}:latest
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
   build_generic:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     container:
       image: menny/android_bazel:1.13.8
     needs:
     - build_base
     env:
-      TERM: dumb
-      IMAGE_VERSION: 1.15.5
       IMAGE_NAME: android
       DOCKER_FILE_PATH: "."
     steps:
-#     # 'setup_remote_docker' was not transformed because there is no suitable equivalent in GitHub Actions
     - uses: actions/checkout@v3.5.0
-    - run: |
-        ssh remote-docker \<<EOF
-          sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
-          sudo systemctl restart docker
-        EOF
-    - name: Build Docker image
-      run: docker build ${DOCKER_FILE_PATH} --build-arg IMAGE_VERSION=${IMAGE_VERSION} --build-arg NDK_VERSION=${NDK_VERSION} --build-arg BAZELISK_VERSION=${BAZELISK_VERSION} --compress --squash -t menny/${IMAGE_NAME}:${IMAGE_VERSION}
-    - name: Push image to Docker
-      run: |-
-        docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-        docker push menny/${IMAGE_NAME}:${IMAGE_VERSION}
-        docker image tag menny/${IMAGE_NAME}:${IMAGE_VERSION} menny/${IMAGE_NAME}:latest
-        docker push menny/${IMAGE_NAME}:latest
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
   build_latest_ndk:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     container:
       image: menny/android_bazel:1.13.8
     needs:
     - build_generic
     env:
-      TERM: dumb
-      IMAGE_VERSION: 1.15.5
       IMAGE_NAME: android_ndk
       NDK_VERSION: 23.0.7599858
       DOCKER_FILE_PATH: android_ndk/.
     steps:
-#     # 'setup_remote_docker' was not transformed because there is no suitable equivalent in GitHub Actions
     - uses: actions/checkout@v3.5.0
-    - run: |
-        ssh remote-docker \<<EOF
-          sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
-          sudo systemctl restart docker
-        EOF
-    - name: Build Docker image
-      run: docker build ${DOCKER_FILE_PATH} --build-arg IMAGE_VERSION=${IMAGE_VERSION} --build-arg NDK_VERSION=${NDK_VERSION} --build-arg BAZELISK_VERSION=${BAZELISK_VERSION} --compress --squash -t menny/${IMAGE_NAME}:${IMAGE_VERSION}
-    - name: Push image to Docker
-      run: |-
-        docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-        docker push menny/${IMAGE_NAME}:${IMAGE_VERSION}
-        docker image tag menny/${IMAGE_NAME}:${IMAGE_VERSION} menny/${IMAGE_NAME}:latest
-        docker push menny/${IMAGE_NAME}:latest
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
   build_android_bazel:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     container:
       image: menny/android_bazel:1.13.8
     needs:
     - build_generic
     env:
-      TERM: dumb
-      IMAGE_VERSION: 1.15.5
       IMAGE_NAME: android_bazel
       DOCKER_FILE_PATH: android_bazel/.
       BAZELISK_VERSION: v1.16.0
     steps:
-#     # 'setup_remote_docker' was not transformed because there is no suitable equivalent in GitHub Actions
     - uses: actions/checkout@v3.5.0
-    - run: |
-        ssh remote-docker \<<EOF
-          sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
-          sudo systemctl restart docker
-        EOF
-    - name: Build Docker image
-      run: docker build ${DOCKER_FILE_PATH} --build-arg IMAGE_VERSION=${IMAGE_VERSION} --build-arg NDK_VERSION=${NDK_VERSION} --build-arg BAZELISK_VERSION=${BAZELISK_VERSION} --compress --squash -t menny/${IMAGE_NAME}:${IMAGE_VERSION}
-    - name: Push image to Docker
-      run: |-
-        docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-        docker push menny/${IMAGE_NAME}:${IMAGE_VERSION}
-        docker image tag menny/${IMAGE_NAME}:${IMAGE_VERSION} menny/${IMAGE_NAME}:latest
-        docker push menny/${IMAGE_NAME}:latest
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
   tag_at_repo:
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     container:
       image: menny/android_bazel:1.13.8
     needs:
     - build_generic
     - build_android_bazel
     - build_latest_ndk
-    env:
-      TERM: dumb
-      IMAGE_VERSION: 1.15.5
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Tagging successful build
       run: |-
-        git config --global user.email "circleci@evendanan.net"
-        git config --global user.name "Circle CI"
+        git config --global user.email "gh-actions@evendanan.net"
+        git config --global user.name "GitHub Actions"
         git tag -a ${IMAGE_VERSION} -m "Deployed"
         git push --tags origin
