@@ -10,9 +10,9 @@ references:
 
   steps: &steps
     steps:
-      - checkout
       - setup_remote_docker:
-        version: 18.09.3
+          version: 18.09.3
+      - checkout
       - run: |
             ssh remote-docker \<<EOF
               sudo bash -c 'echo "{\"experimental\": true}" > /etc/docker/daemon.json'
