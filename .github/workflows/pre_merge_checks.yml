@@ -10,6 +10,9 @@ env:
 jobs:
   sanity:
     runs-on: ubuntu-22.04
+    env:
+      GITHUB_COMMENT_URL: ${{ github.event.pull_request.comments_url }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Base Android image
