@@ -12,19 +12,15 @@ env:
 jobs:
   build_base:
     runs-on: ubuntu-18.04
-    container:
-      image: menny/android_bazel:1.13.8
     env:
       IMAGE_NAME: android_base
       DOCKER_FILE_PATH: android_base/.
     steps:
     - uses: actions/checkout@v3.5.0
-    - run: ./github/docker_build_image.sh
-    - run: ./github/docket_push_image.sh
+    - run: ./.github/docker_build_image.sh
+    - run: ./.github/docket_push_image.sh
   build_generic:
     runs-on: ubuntu-18.04
-    container:
-      image: menny/android_bazel:1.13.8
     needs:
     - build_base
     env:
@@ -32,12 +28,10 @@ jobs:
       DOCKER_FILE_PATH: "."
     steps:
     - uses: actions/checkout@v3.5.0
-    - run: ./github/docker_build_image.sh
-    - run: ./github/docket_push_image.sh
+    - run: ./.github/docker_build_image.sh
+    - run: ./.github/docket_push_image.sh
   build_latest_ndk:
     runs-on: ubuntu-18.04
-    container:
-      image: menny/android_bazel:1.13.8
     needs:
     - build_generic
     env:
@@ -46,12 +40,10 @@ jobs:
       DOCKER_FILE_PATH: android_ndk/.
     steps:
     - uses: actions/checkout@v3.5.0
-    - run: ./github/docker_build_image.sh
-    - run: ./github/docket_push_image.sh
+    - run: ./.github/docker_build_image.sh
+    - run: ./.github/docket_push_image.sh
   build_android_bazel:
     runs-on: ubuntu-18.04
-    container:
-      image: menny/android_bazel:1.13.8
     needs:
     - build_generic
     env:
@@ -60,12 +52,10 @@ jobs:
       BAZELISK_VERSION: v1.16.0
     steps:
     - uses: actions/checkout@v3.5.0
-    - run: ./github/docker_build_image.sh
-    - run: ./github/docket_push_image.sh
+    - run: ./.github/docker_build_image.sh
+    - run: ./.github/docket_push_image.sh
   tag_at_repo:
     runs-on: ubuntu-18.04
-    container:
-      image: menny/android_bazel:1.13.8
     needs:
     - build_generic
     - build_android_bazel
