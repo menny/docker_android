@@ -19,7 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3.5.0
     - run: ./.github/docker_build_image.sh
-    - run: ./.github/docket_push_image.sh
+    - run: ./.github/docker_push_image.sh
   build_generic:
     runs-on: ubuntu-22.04
     needs:
@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3.5.0
     - run: ./.github/docker_build_image.sh
-    - run: ./.github/docket_push_image.sh
+    - run: ./.github/docker_push_image.sh
   build_latest_ndk:
     runs-on: ubuntu-22.04
     needs:
@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3.5.0
     - run: ./.github/docker_build_image.sh
-    - run: ./.github/docket_push_image.sh
+    - run: ./.github/docker_push_image.sh
   build_android_bazel:
     runs-on: ubuntu-22.04
     needs:
@@ -54,7 +54,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3.5.0
     - run: ./.github/docker_build_image.sh
-    - run: ./.github/docket_push_image.sh
+    - run: ./.github/docker_push_image.sh
   green:
     runs-on: ubuntu-22.04
     needs:
@@ -70,9 +70,8 @@ jobs:
     - green
     steps:
     - uses: actions/checkout@v3.5.0
-    - name: Tagging successful build
-      run: |-
-        git config --global user.email "gh-actions@evendanan.net"
-        git config --global user.name "GitHub Actions"
-        git tag -a ${IMAGE_VERSION} -m "Deployed"
-        git push --tags origin
+    - uses: avakar/tag-and-release@v1
+      with:
+        tag_name: ${{ env.IMAGE_VERSION }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
