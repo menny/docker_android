@@ -1,8 +1,9 @@
-name: build_all_images
+name: post_merge_deploy
 on:
   push:
     branches:
     - master
+
 env:
   DOCKER_EMAIL: ${{ secrets.DOCKER_EMAIL }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
@@ -11,7 +12,7 @@ env:
   IMAGE_VERSION: 1.16.0
 jobs:
   build_base:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     env:
       IMAGE_NAME: android_base
       DOCKER_FILE_PATH: android_base/.
@@ -20,7 +21,7 @@ jobs:
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docket_push_image.sh
   build_generic:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     needs:
     - build_base
     env:
@@ -31,7 +32,7 @@ jobs:
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docket_push_image.sh
   build_latest_ndk:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     needs:
     - build_generic
     env:
@@ -43,7 +44,7 @@ jobs:
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docket_push_image.sh
   build_android_bazel:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     needs:
     - build_generic
     env:
@@ -54,12 +55,19 @@ jobs:
     - uses: actions/checkout@v3.5.0
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docket_push_image.sh
-  tag_at_repo:
-    runs-on: ubuntu-18.04
+  green:
+    runs-on: ubuntu-22.04
     needs:
     - build_generic
     - build_android_bazel
     - build_latest_ndk
+    steps:
+      - name: ready
+        run: echo "DONE"
+  tag_at_repo:
+    runs-on: ubuntu-22.04
+    needs:
+    - green
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Tagging successful build
