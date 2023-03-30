@@ -1,0 +1,80 @@
+name: build_all_images
+on:
+  push:
+    branches:
+    - master
+env:
+  DOCKER_EMAIL: ${{ secrets.DOCKER_EMAIL }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  TERM: dumb
+  IMAGE_VERSION: 1.16.0
+jobs:
+  build_base:
+    runs-on: ubuntu-18.04
+    container:
+      image: menny/android_bazel:1.13.8
+    env:
+      IMAGE_NAME: android_base
+      DOCKER_FILE_PATH: android_base/.
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
+  build_generic:
+    runs-on: ubuntu-18.04
+    container:
+      image: menny/android_bazel:1.13.8
+    needs:
+    - build_base
+    env:
+      IMAGE_NAME: android
+      DOCKER_FILE_PATH: "."
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
+  build_latest_ndk:
+    runs-on: ubuntu-18.04
+    container:
+      image: menny/android_bazel:1.13.8
+    needs:
+    - build_generic
+    env:
+      IMAGE_NAME: android_ndk
+      NDK_VERSION: 23.0.7599858
+      DOCKER_FILE_PATH: android_ndk/.
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
+  build_android_bazel:
+    runs-on: ubuntu-18.04
+    container:
+      image: menny/android_bazel:1.13.8
+    needs:
+    - build_generic
+    env:
+      IMAGE_NAME: android_bazel
+      DOCKER_FILE_PATH: android_bazel/.
+      BAZELISK_VERSION: v1.16.0
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - run: ./github/docker_build_image.sh
+    - run: ./github/docket_push_image.sh
+  tag_at_repo:
+    runs-on: ubuntu-18.04
+    container:
+      image: menny/android_bazel:1.13.8
+    needs:
+    - build_generic
+    - build_android_bazel
+    - build_latest_ndk
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - name: Tagging successful build
+      run: |-
+        git config --global user.email "gh-actions@evendanan.net"
+        git config --global user.name "GitHub Actions"
+        git tag -a ${IMAGE_VERSION} -m "Deployed"
+        git push --tags origin
