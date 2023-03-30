@@ -9,48 +9,43 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   TERM: dumb
-  IMAGE_VERSION: 1.16.0
+  IMAGE_VERSION: 1.16.1
 jobs:
   build_base:
     runs-on: ubuntu-22.04
-    env:
-      IMAGE_NAME: android_base
-      DOCKER_FILE_PATH: android_base/.
     steps:
     - uses: actions/checkout@v3.5.0
-    - run: ./.github/docker_build_image.sh
-    - run: ./.github/docker_push_image.sh
-  build_generic:
+    - name: base image
+      env:
+        IMAGE_NAME: android_base
+        DOCKER_FILE_PATH: android_base/.
+      run: |
+        ./.github/docker_build_image.sh
+        ./.github/docker_build_image.sh
+    - name: base image
+      env:
+        IMAGE_NAME: android
+        DOCKER_FILE_PATH: .
+      run: |
+        ./.github/docker_build_image.sh
+        ./.github/docker_build_image.sh
+  build_specialized_images:
+    strategy:
+      matrix:
+        type: [android_ndk, android_bazel]
+        include:
+          - type: android_ndk
+            ndk_version: 23.0.7599858
+          - type: android_bazel
+            bazelisk_version: v1.16.0
     runs-on: ubuntu-22.04
     needs:
     - build_base
     env:
-      IMAGE_NAME: android
-      DOCKER_FILE_PATH: "."
-    steps:
-    - uses: actions/checkout@v3.5.0
-    - run: ./.github/docker_build_image.sh
-    - run: ./.github/docker_push_image.sh
-  build_latest_ndk:
-    runs-on: ubuntu-22.04
-    needs:
-    - build_generic
-    env:
-      IMAGE_NAME: android_ndk
-      NDK_VERSION: 23.0.7599858
-      DOCKER_FILE_PATH: android_ndk/.
-    steps:
-    - uses: actions/checkout@v3.5.0
-    - run: ./.github/docker_build_image.sh
-    - run: ./.github/docker_push_image.sh
-  build_android_bazel:
-    runs-on: ubuntu-22.04
-    needs:
-    - build_generic
-    env:
-      IMAGE_NAME: android_bazel
-      DOCKER_FILE_PATH: android_bazel/.
-      BAZELISK_VERSION: v1.16.0
+      IMAGE_NAME: ${{ matrix.type }}
+      NDK_VERSION: ${{ matrix.ndk_version }}
+      BAZELISK_VERSION: ${{ matrix.bazelisk_version}}
+      DOCKER_FILE_PATH: ${{ matrix.type }}/.
     steps:
     - uses: actions/checkout@v3.5.0
     - run: ./.github/docker_build_image.sh
@@ -58,9 +53,8 @@ jobs:
   green:
     runs-on: ubuntu-22.04
     needs:
-    - build_generic
-    - build_android_bazel
-    - build_latest_ndk
+    - build_base
+    - build_specialized_images
     steps:
       - name: ready
         run: echo "DONE"
