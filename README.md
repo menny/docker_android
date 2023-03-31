@@ -1,7 +1,6 @@
 # Dockerfile for Android CI
-Latest _release_&nbsp;![](https://github.com/menny/docker_android/workflows/post_merge_deploy/badge.svg?event=push&branch=main)&nbsp;[![Latest release](https://img.shields.io/github/release/menny/docker_android.svg)](https://github.com/menny/docker_android/releases)
-My general usage (very up-to-date) Docker images for Android CI
-<br/>
+Latest release:&nbsp;![](https://github.com/menny/docker_android/workflows/post_merge_deploy/badge.svg?event=push&branch=main)&nbsp;[![Latest release](https://img.shields.io/github/release/menny/docker_android.svg)](https://github.com/menny/docker_android/releases)<br/>
+My general usage Docker images for Android CI.<br/>
 These images are available in Docker Hub and [ghcr.io](https://github.com/menny?tab=packages&repo_name=docker_android).
 
 ## Contains:
