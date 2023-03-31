@@ -6,7 +6,7 @@ on:
 
 env:
   TERM: dumb
-  IMAGE_VERSION: 1.16.4
+  IMAGE_VERSION: 1.16.5
 jobs:
   build_base:
     runs-on: ubuntu-22.04
