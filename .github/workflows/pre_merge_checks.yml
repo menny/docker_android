@@ -16,6 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Base Android image
+      env:
+        SQUASH_IMAGE: SQUASH
       run: IMAGE_NAME="android_base" DOCKER_FILE_PATH="android_base/." ./.github/docker_build_image.sh
     - name: Android image with some tools
       run: IMAGE_NAME="android" DOCKER_FILE_PATH="." ./.github/docker_build_image.sh
