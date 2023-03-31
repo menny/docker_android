@@ -27,6 +27,7 @@ jobs:
       env:
         IMAGE_NAME: android_base
         DOCKER_FILE_PATH: android_base/.
+        SQUASH_IMAGE: SQUASH
       run: |
         ./.github/docker_build_image.sh
         ./.github/docker_push_image.sh
@@ -44,8 +45,10 @@ jobs:
         include:
           - type: android_ndk
             ndk_version: 23.0.7599858
+            squash: NO
           - type: android_bazel
             bazelisk_version: v1.16.0
+            squash: SQUASH
     runs-on: ubuntu-22.04
     needs:
     - build_base
@@ -54,6 +57,7 @@ jobs:
       NDK_VERSION: ${{ matrix.ndk_version }}
       BAZELISK_VERSION: ${{ matrix.bazelisk_version}}
       DOCKER_FILE_PATH: ${{ matrix.type }}/.
+      SQUASH_IMAGE: ${{ matrix.squash }}
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Log in to Docker Hub
