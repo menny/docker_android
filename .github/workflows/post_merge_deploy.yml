@@ -6,7 +6,7 @@ on:
 
 env:
   TERM: dumb
-  IMAGE_VERSION: 1.16.3
+  IMAGE_VERSION: 1.16.4
 jobs:
   build_base:
     runs-on: ubuntu-22.04
@@ -56,6 +56,17 @@ jobs:
       DOCKER_FILE_PATH: ${{ matrix.type }}/.
     steps:
     - uses: actions/checkout@v3.5.0
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2.1.0
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2.1.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docker_push_image.sh
   green:
