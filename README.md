@@ -1,5 +1,6 @@
-# Dockerfile for Android CI ![](https://github.com/menny/docker_android/workflows/checks/badge.svg?event=push&branch=main)
-My general usage (very up-to-date) Docker image for Android CI&nbsp;[![Latest release](https://img.shields.io/github/release/menny/docker_android.svg)](https://github.com/menny/docker_android/releases)
+# Dockerfile for Android CI
+Latest _release_&nbsp;![](https://github.com/menny/docker_android/workflows/post_merge_deploy/badge.svg?event=push&branch=main)&nbsp;[![Latest release](https://img.shields.io/github/release/menny/docker_android.svg)](https://github.com/menny/docker_android/releases)
+My general usage (very up-to-date) Docker image for Android CI
 ## Contains:
 
 * Based on `adoptopenjdk/openjdk11:jdk-11.0.12_7-ubuntu-slim` - Ubuntu 20.04 with AdoptOpenJDK 11
