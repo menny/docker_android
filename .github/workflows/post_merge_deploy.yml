@@ -9,7 +9,7 @@ env:
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   TERM: dumb
-  IMAGE_VERSION: 1.16.1
+  IMAGE_VERSION: 1.16.2
 jobs:
   build_base:
     runs-on: ubuntu-22.04
@@ -21,14 +21,14 @@ jobs:
         DOCKER_FILE_PATH: android_base/.
       run: |
         ./.github/docker_build_image.sh
-        ./.github/docker_build_image.sh
-    - name: base image
+        ./.github/docker_push_image.sh
+    - name: generic image
       env:
         IMAGE_NAME: android
         DOCKER_FILE_PATH: .
       run: |
         ./.github/docker_build_image.sh
-        ./.github/docker_build_image.sh
+        ./.github/docker_push_image.sh
   build_specialized_images:
     strategy:
       matrix:
