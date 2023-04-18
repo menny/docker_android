@@ -11,6 +11,7 @@ WORKDIR /opt
 
 # Install Android NDK
 RUN sdkmanager "ndk;${NDK_VERSION}"
+RUN sdkmanager "cmake;3.6.4111459"
 RUN cat /opt/android-sdk-linux/ndk/${NDK_VERSION}/source.properties
 
 # GO to workspace

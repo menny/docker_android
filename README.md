@@ -5,13 +5,13 @@ These images are available in Docker Hub and [ghcr.io](https://github.com/menny?
 
 ## Contains:
 
-* Based on `ubuntu:focal`
+* Based on `ubuntu:jammy` 22.04
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * Corretto JDK17 - https://github.com/corretto/corretto-17/releases
-* cmdline tools 6.0
-* Platform tools 32.0.0
-* Build Tools 32.0.0
-* SDK API 32
+* cmdline tools 9.0
+* Platform tools 34.0.0
+* Build Tools 33.0.2
+* SDK API 33
 * Compressed and squashed into one layer (where makes sense).
 
 
