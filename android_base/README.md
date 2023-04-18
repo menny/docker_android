@@ -3,9 +3,9 @@ My general usage (very up-to-date) Docker image for Android CI. Without anything
 
 ## Contains:
 
-* Based on `ubuntu:18.04`
+* Based on `ubuntu:focal`
 * with wget, curl, zip, python, python3, pip, rsyslog, git, make, gcc (and other build-essential)
-* AdoptJDK11 - https://github.com/AdoptOpenJDK (including CA Root Certificates)
+* Corretto JDK17 - https://github.com/corretto/corretto-17/releases
 * Compressed and squashed into one layer.
 
 ## Accepting licenses
