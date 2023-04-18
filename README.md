@@ -5,9 +5,9 @@ These images are available in Docker Hub and [ghcr.io](https://github.com/menny?
 
 ## Contains:
 
-* Based on `adoptopenjdk/openjdk11:jdk-11.0.12_7-ubuntu-slim` - Ubuntu 20.04 with AdoptOpenJDK 11
+* Based on `ubuntu:focal`
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
-* AdoptJDK11 - https://github.com/AdoptOpenJDK
+* Corretto JDK17 - https://github.com/corretto/corretto-17/releases
 * cmdline tools 6.0
 * Platform tools 32.0.0
 * Build Tools 32.0.0
