@@ -91,22 +91,22 @@ jobs:
       with:
         tag_name: ${{ env.IMAGE_VERSION }}
         body: >
-          **Base**: image with JDK17, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):
+          **Base**: image with JDK17, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_base:${{ env.IMAGE_VERSION }}
-          ```
-
-          **Android**: Base + Build Tools, Platform level 33 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):
+          ```<br/>
+          <br/>
+          **Android**: Base + Build Tools, Platform level 33 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android:${{ env.IMAGE_VERSION }}
-          ```
-
-          **NDK**: Android + NDK ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):
+          ```<br/>
+          <br/>
+          **NDK**: Android + NDK ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_ndk:${{ env.IMAGE_VERSION }}
-          ```
-
-          **Bazel**: Android + Bazelisk and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):
+          ```<br/>
+          <br/>
+          **Bazel**: Android + Bazelisk and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
           ```
