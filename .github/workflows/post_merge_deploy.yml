@@ -6,7 +6,7 @@ on:
 
 env:
   TERM: dumb
-  IMAGE_VERSION: 1.18.0
+  IMAGE_VERSION: 1.18.1
 jobs:
   build_base:
     runs-on: ubuntu-22.04
@@ -90,5 +90,27 @@ jobs:
     - uses: avakar/tag-and-release@v1
       with:
         tag_name: ${{ env.IMAGE_VERSION }}
+        body: >
+          **Base**: image with JDK17, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):
+          ```
+          docker pull ghcr.io/menny/android_base:${{ env.IMAGE_VERSION }}
+          ```
+
+          **Android**: Base + Build Tools, Platform level 33 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):
+          ```
+          docker pull ghcr.io/menny/android:${{ env.IMAGE_VERSION }}
+          ```
+
+          **NDK**: Android + NDK ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):
+          ```
+          docker pull ghcr.io/menny/android_ndk:${{ env.IMAGE_VERSION }}
+          ```
+
+          **Bazel**: Android + Bazelisk and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):
+          ```
+          docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
+          ```
+
+
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
