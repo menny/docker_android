@@ -3,10 +3,11 @@ on:
   push:
     branches:
     - main
-
 env:
   TERM: dumb
-  IMAGE_VERSION: 1.18.1
+  IMAGE_VERSION: 1.19.0
+  NDK_VERSION: 23.0.7599858
+  BASELISK_VERSION: v1.16.0
 jobs:
   build_base:
     runs-on: ubuntu-22.04
@@ -44,10 +45,10 @@ jobs:
         type: [android_ndk, android_bazel]
         include:
           - type: android_ndk
-            ndk_version: 23.0.7599858
+            ndk_version: ${{ env.NDK_VERSION }}
             squash: NO
           - type: android_bazel
-            bazelisk_version: v1.16.0
+            bazelisk_version: ${{ env.BASELISK_VERSION }}
             squash: SQUASH
     runs-on: ubuntu-22.04
     needs:
@@ -101,12 +102,12 @@ jobs:
           docker pull ghcr.io/menny/android:${{ env.IMAGE_VERSION }}
           ```<br/>
           <br/>
-          **NDK**: Android + NDK ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):<br/>
+          **NDK**: Android + NDK ${{ env.NDK_VERSION }} ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_ndk:${{ env.IMAGE_VERSION }}
           ```<br/>
           <br/>
-          **Bazel**: Android + Bazelisk and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
+          **Bazel**: Android + Bazelisk ${{ env.BASELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
           ```

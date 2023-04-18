@@ -1,4 +1,4 @@
-FROM ubuntu:focal@sha256:b795f8e0caaaacad9859a9a38fe1c78154f8301fdaf0872eaf1520d66d9c0b98
+FROM ubuntu:jammy@sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
 ARG IMAGE_VERSION
 
 LABEL description="A general use Android docker for CI"
@@ -13,8 +13,8 @@ ENV TERM dumb
 RUN apt-get update \
     && apt-get install -y --allow-remove-essential --allow-change-held-packages \
       locales software-properties-common ca-certificates build-essential zlib1g-dev \
-      libc6-i386 lib32stdc++6 lib32gcc1 lib32z1 pkg-config g++ \
-      python python3 python3-pip python-lxml python-yaml libxml2-utils \
+      pkg-config file \
+      python3 python3-pip python3-lxml python3-yaml libxml2-utils \
       wget curl nano rsync sudo zip psmisc rsyslog jq unzip \
       java-common \
     && apt-get clean
@@ -57,12 +57,9 @@ RUN curl https://dl.google.com/android/repository/commandlinetools-linux-8092744
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "cmdline-tools;6.0"
+RUN sdkmanager "cmdline-tools;9.0"
 RUN sdkmanager "platform-tools"
 RUN sdkmanager "patcher;v4"
-
-# Updating everything again
-RUN sdkmanager --update
 
 #accepting licenses
 RUN yes | sdkmanager --licenses
