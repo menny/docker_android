@@ -45,10 +45,10 @@ jobs:
         type: [android_ndk, android_bazel]
         include:
           - type: android_ndk
-            ndk_version: ${{ env.NDK_VERSION }}
+            ndk_version: 23.0.7599858
             squash: NO
           - type: android_bazel
-            bazelisk_version: ${{ env.BASELISK_VERSION }}
+            bazelisk_version: v1.16.0
             squash: SQUASH
     runs-on: ubuntu-22.04
     needs:
