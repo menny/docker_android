@@ -1,23 +1,27 @@
-FROM adoptopenjdk/openjdk11:jdk-11.0.12_7-ubuntu-slim
+FROM ubuntu:focal@sha256:b795f8e0caaaacad9859a9a38fe1c78154f8301fdaf0872eaf1520d66d9c0b98
 ARG IMAGE_VERSION
 
 LABEL description="A general use Android docker for CI"
 LABEL version="${IMAGE_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
-# Install Deps and build-essential
-RUN dpkg --add-architecture i386
-RUN apt-get update
-RUN apt-get install -y --allow-remove-essential --allow-change-held-packages \
-    software-properties-common locales ca-certificates build-essential zlib1g-dev \
-    libc6-i386 lib32stdc++6 lib32gcc1 lib32z1 pkg-config g++ \
-    python python3 python3-pip python-lxml python-yaml libxml2-utils \
-    wget curl nano rsync sudo zip psmisc rsyslog jq unzip
-# this is required for the latest git (ubuntu's official git is quite old)
-RUN add-apt-repository ppa:git-core/ppa -y
-RUN apt-get install -y --allow-remove-essential --allow-change-held-packages git
+# disable interactive functions
+ENV DEBIAN_FRONTEND noninteractive
+ENV TERM dumb
 
-RUN apt-get clean
+# Install Deps and build-essential
+RUN apt-get update \
+    && apt-get install -y --allow-remove-essential --allow-change-held-packages \
+      locales software-properties-common ca-certificates build-essential zlib1g-dev \
+      libc6-i386 lib32stdc++6 lib32gcc1 lib32z1 pkg-config g++ \
+      python python3 python3-pip python-lxml python-yaml libxml2-utils \
+      wget curl nano rsync sudo zip psmisc rsyslog jq unzip \
+      java-common \
+    && apt-get clean
+# this is required for the latest git (ubuntu's official git is quite old)
+RUN add-apt-repository ppa:git-core/ppa -y \
+    && apt-get install -y --allow-remove-essential --allow-change-held-packages git \
+    && apt-get clean
 
 RUN touch /var/log/kern.log ; chown syslog:adm /var/log/kern.log
 
@@ -25,8 +29,6 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-# disable interactive functions
-ENV DEBIAN_FRONTEND noninteractive
 
 RUN mkdir -p /opt
 WORKDIR /opt
@@ -37,14 +39,19 @@ RUN chmod +x /opt/tools/start_emulator.sh
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
 
+# Setup Java
+RUN curl https://corretto.aws/downloads/resources/17.0.6.10.1/java-17-amazon-corretto-jdk_17.0.6.10-1_amd64.deb -o jdk-corretto.deb \
+    && dpkg --install jdk-corretto.deb \
+    && rm jdk-corretto.deb
+
 RUN java -version
 
 # Install Android SDK
-ADD https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip downloaded_sdk.zip
-RUN mkdir -p /opt/android-sdk-linux/cmdline-tools
-RUN unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools
-RUN rm -f downloaded_sdk.zip
-RUN mv /opt/android-sdk-linux/cmdline-tools/cmdline-tools /opt/android-sdk-linux/cmdline-tools/latest
+RUN curl https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -o downloaded_sdk.zip \
+    && mkdir -p /opt/android-sdk-linux/cmdline-tools \
+    && unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools \
+    && rm -f downloaded_sdk.zip \
+    && mv /opt/android-sdk-linux/cmdline-tools/cmdline-tools /opt/android-sdk-linux/cmdline-tools/latest
 
 #accepting licenses
 RUN yes | sdkmanager --licenses
