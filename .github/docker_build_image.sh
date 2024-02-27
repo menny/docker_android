@@ -15,9 +15,9 @@ if [[ "SQUASH" == "${SQUASH_IMAGE}" ]]; then
     docker history "menny/${IMAGE_NAME}:${IMAGE_VERSION}-raw"
     echo "******"
 
-    INITAL_COMMIT="$(docker history -q menny/${IMAGE_NAME}:${IMAGE_VERSION}-raw | grep -v missing | tail -n 1)"
-    echo "** docker-squash all the way to initial commit $INITAL_COMMIT"
-    docker-squash -f "$INITAL_COMMIT" -t "menny/${IMAGE_NAME}:${IMAGE_VERSION}" menny/${IMAGE_NAME}:${IMAGE_VERSION}-raw
+    COMMITS_COUNT="$(docker history menny/${IMAGE_NAME}:${IMAGE_VERSION}-raw | grep 'buildkit.dockerfile' | wc -l)"
+    echo "** docker-squash $COMMITS_COUNT layers"
+    docker-squash -f "$COMMITS_COUNT" -t "menny/${IMAGE_NAME}:${IMAGE_VERSION}" menny/${IMAGE_NAME}:${IMAGE_VERSION}-raw
     echo "******"
 
     echo "** Docker images on machine after squash:"

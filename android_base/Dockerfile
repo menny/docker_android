@@ -16,6 +16,7 @@ RUN apt-get update \
       pkg-config file \
       python3 python3-pip python3-lxml python3-yaml libxml2-utils \
       wget curl nano rsync sudo zip psmisc rsyslog jq unzip \
+      imagemagick \
       java-common \
     && apt-get clean
 # this is required for the latest git (ubuntu's official git is quite old)
@@ -40,7 +41,7 @@ ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
 
 # Setup Java
-RUN curl https://corretto.aws/downloads/resources/17.0.6.10.1/java-17-amazon-corretto-jdk_17.0.6.10-1_amd64.deb -o jdk-corretto.deb \
+RUN curl https://corretto.aws/downloads/resources/17.0.10.8.1/java-17-amazon-corretto-jdk_17.0.10.8-1_amd64.deb -o jdk-corretto.deb \
     && dpkg --install jdk-corretto.deb \
     && rm jdk-corretto.deb
 
@@ -57,9 +58,10 @@ RUN curl https://dl.google.com/android/repository/commandlinetools-linux-8092744
 RUN yes | sdkmanager --licenses
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "cmdline-tools;9.0"
+RUN sdkmanager --list
+
+RUN sdkmanager "cmdline-tools;12.0"
 RUN sdkmanager "platform-tools"
-RUN sdkmanager "patcher;v4"
 
 #accepting licenses
 RUN yes | sdkmanager --licenses

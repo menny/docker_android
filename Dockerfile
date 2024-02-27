@@ -8,9 +8,9 @@ LABEL version="${IMAGE_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
 # Install sdk elements (list from "sdkmanager --list")
-RUN sdkmanager "build-tools;33.0.2"
+RUN sdkmanager "build-tools;34.0.0"
 
-RUN sdkmanager "platforms;android-33"
+RUN sdkmanager "platforms;android-34"
 
 #accepting licenses
 RUN yes | sdkmanager --licenses
