@@ -8,10 +8,10 @@ These images are available in Docker Hub and [ghcr.io](https://github.com/menny?
 * Based on `ubuntu:jammy` 22.04
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
 * Corretto JDK17 - https://github.com/corretto/corretto-17/releases
-* cmdline tools 9.0
-* Platform tools 34.0.0
-* Build Tools 33.0.2
-* SDK API 33
+* cmdline tools 12.0
+* Platform tools 35.0.0
+* Build Tools 34.0.0
+* SDK API 34
 * Compressed and squashed into one layer (where makes sense).
 
 
