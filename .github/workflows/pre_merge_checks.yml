@@ -9,7 +9,7 @@ env:
   IMAGE_VERSION: 9.99.9
 jobs:
   sanity:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       GITHUB_COMMENT_URL: ${{ github.event.pull_request.comments_url }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
