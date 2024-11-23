@@ -1,4 +1,4 @@
-FROM ubuntu:jammy@sha256:7a57c69fe1e9d5b97c5fe649849e79f2cfc3bf11d10bbd5218b4eb61716aebe6
+FROM ubuntu:jammy@sha256:f470988096c4d77efac9740a1b6700823681af518a17fad30111430b95dfbffa
 ARG IMAGE_VERSION
 
 LABEL description="A general use Android docker for CI"
@@ -48,7 +48,7 @@ RUN curl https://corretto.aws/downloads/resources/17.0.10.8.1/java-17-amazon-cor
 RUN java -version
 
 # Install Android SDK
-RUN curl https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip -o downloaded_sdk.zip \
+RUN curl https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o downloaded_sdk.zip \
     && mkdir -p /opt/android-sdk-linux/cmdline-tools \
     && unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools \
     && rm -f downloaded_sdk.zip \
@@ -60,7 +60,7 @@ RUN yes | sdkmanager --licenses
 # Install sdk elements (list from "sdkmanager --list")
 RUN sdkmanager --list
 
-RUN sdkmanager "cmdline-tools;12.0"
+RUN sdkmanager "cmdline-tools;16.0"
 RUN sdkmanager "platform-tools"
 
 #accepting licenses
