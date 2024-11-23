@@ -28,7 +28,7 @@ jobs:
       env:
         IMAGE_NAME: android_base
         DOCKER_FILE_PATH: android_base/.
-        SQUASH_IMAGE: SQUASH
+        SQUASH_IMAGE: NO
       run: |
         ./.github/docker_build_image.sh
         ./.github/docker_push_image.sh
@@ -49,7 +49,7 @@ jobs:
             squash: NO
           - type: android_bazel
             bazelisk_version: v1.24.0
-            squash: SQUASH
+            squash: NO
     runs-on: ubuntu-24.04
     needs:
     - build_base
