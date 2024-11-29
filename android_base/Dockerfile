@@ -11,18 +11,17 @@ ENV TERM=dumb
 
 # Install Deps and build-essential
 RUN apt-get update \
-    && apt-get install -y --allow-remove-essential --allow-change-held-packages \
+    && apt-get install -y --allow-remove-essential --allow-change-held-packages --no-install-recommends \
       locales software-properties-common ca-certificates build-essential zlib1g-dev \
       pkg-config file \
       python3 python3-pip python3-lxml python3-yaml libxml2-utils yamllint \
-      wget curl nano rsync sudo zip psmisc rsyslog jq unzip \
+      wget curl nano rsync zip psmisc rsyslog jq unzip \
       imagemagick \
       java-common \
-    && apt-get clean
-# this is required for the latest git (ubuntu's official git is quite old)
-RUN add-apt-repository ppa:git-core/ppa -y \
-    && apt-get install -y --allow-remove-essential --allow-change-held-packages git \
-    && apt-get clean
+    && add-apt-repository ppa:git-core/ppa -y \
+    && apt-get install git  -y --allow-remove-essential --allow-change-held-packages --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN touch /var/log/kern.log ; chown syslog:adm /var/log/kern.log
 
