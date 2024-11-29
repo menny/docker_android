@@ -15,6 +15,12 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v3.5.0
+    - name: lint
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      with:
+        target: Dockerfile android_base/Dockerfile android_bazel/Dockerfile android_ndk/Dockerfile
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Base Android image
       env:
         SQUASH_IMAGE: SQUASH
