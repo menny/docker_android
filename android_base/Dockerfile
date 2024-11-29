@@ -6,15 +6,15 @@ LABEL version="${IMAGE_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
 # disable interactive functions
-ENV DEBIAN_FRONTEND noninteractive
-ENV TERM dumb
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM=dumb
 
 # Install Deps and build-essential
 RUN apt-get update \
     && apt-get install -y --allow-remove-essential --allow-change-held-packages \
       locales software-properties-common ca-certificates build-essential zlib1g-dev \
       pkg-config file \
-      python3 python3-pip python3-lxml python3-yaml libxml2-utils \
+      python3 python3-pip python3-lxml python3-yaml libxml2-utils yamllint \
       wget curl nano rsync sudo zip psmisc rsyslog jq unzip \
       imagemagick \
       java-common \
@@ -27,9 +27,9 @@ RUN add-apt-repository ppa:git-core/ppa -y \
 RUN touch /var/log/kern.log ; chown syslog:adm /var/log/kern.log
 
 RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 RUN mkdir -p /opt
 WORKDIR /opt
@@ -37,8 +37,8 @@ COPY tools /opt/tools
 RUN chmod +x /opt/tools/start_emulator.sh
 
 # Setup environment
-ENV ANDROID_HOME /opt/android-sdk-linux
-ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
+ENV ANDROID_HOME=/opt/android-sdk-linux
+ENV PATH=${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
 
 # Setup Java
 RUN curl https://corretto.aws/downloads/resources/17.0.10.8.1/java-17-amazon-corretto-jdk_17.0.10.8-1_amd64.deb -o jdk-corretto.deb \
