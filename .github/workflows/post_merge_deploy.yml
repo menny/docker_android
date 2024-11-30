@@ -5,9 +5,6 @@ on:
     - main
 env:
   TERM: dumb
-  IMAGE_VERSION: 1.21.1
-  NDK_VERSION: 27.2.12479018
-  BASELISK_VERSION: v1.24.0
 jobs:
   build_base:
     runs-on: ubuntu-24.04
@@ -45,18 +42,14 @@ jobs:
         type: [android_ndk, android_bazel]
         include:
           - type: android_ndk
-            ndk_version: 27.2.12479018
             squash: NO
           - type: android_bazel
-            bazelisk_version: v1.24.0
             squash: NO
     runs-on: ubuntu-24.04
     needs:
     - build_base
     env:
       IMAGE_NAME: ${{ matrix.type }}
-      NDK_VERSION: ${{ matrix.ndk_version }}
-      BAZELISK_VERSION: ${{ matrix.bazelisk_version}}
       DOCKER_FILE_PATH: ${{ matrix.type }}/.
       SQUASH_IMAGE: ${{ matrix.squash }}
     steps:
@@ -107,7 +100,7 @@ jobs:
           docker pull ghcr.io/menny/android_ndk:${{ env.IMAGE_VERSION }}
           ```<br/>
           <br/>
-          **Bazel**: Android + Bazelisk ${{ env.BASELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
+          **Bazel**: Android + Bazelisk ${{ env.BAZELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
           ```

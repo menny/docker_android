@@ -16,7 +16,7 @@ RUN apt-get update \
       pkg-config file \
       python3 python3-pip python3-lxml python3-yaml libxml2-utils yamllint \
       wget curl nano rsync zip psmisc rsyslog jq unzip \
-      imagemagick \
+      imagemagick librsvg2-bin \
       java-common \
     && add-apt-repository ppa:git-core/ppa -y \
     && apt-get install git  -y --allow-remove-essential --allow-change-held-packages --no-install-recommends \
