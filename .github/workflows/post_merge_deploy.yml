@@ -100,7 +100,7 @@ jobs:
           docker pull ghcr.io/menny/android_ndk:${{ env.IMAGE_VERSION }}
           ```<br/>
           <br/>
-          **Bazel**: Android + Bazelisk ${{ env.BASELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
+          **Bazel**: Android + Bazelisk ${{ env.BAZELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
           ```
