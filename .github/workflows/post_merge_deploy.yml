@@ -81,6 +81,8 @@ jobs:
     - green
     steps:
     - uses: actions/checkout@v3.5.0
+    - name: Loading version data
+      run: .github/shared_tools_versions.sh
     - uses: avakar/tag-and-release@v1
       with:
         tag_name: ${{ env.IMAGE_VERSION }}
