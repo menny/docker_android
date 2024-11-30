@@ -5,7 +5,7 @@ on:
     - main
 env:
   TERM: dumb
-  IMAGE_VERSION: 1.21.0
+  IMAGE_VERSION: 1.21.1
   NDK_VERSION: 27.2.12479018
   BASELISK_VERSION: v1.24.0
 jobs:

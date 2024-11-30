@@ -19,7 +19,7 @@ RUN sdkmanager "sources;android-26"
 # support for X-server
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
     apt-get update -qq && \
-    apt-get install -qq -y --fix-missing sudo software-properties-common git libxext-dev libxrender-dev libxslt1.1 \
+    apt-get install -qq -y --fix-missing software-properties-common git libxext-dev libxrender-dev libxslt1.1 \
         libxtst-dev libgtk2.0-0 libcanberra-gtk-module unzip wget && \
     apt-get clean -qq -y && \
     apt-get autoclean -qq -y && \
