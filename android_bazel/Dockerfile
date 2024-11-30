@@ -14,9 +14,11 @@ WORKDIR /opt
 ENV JAVA_TOOL_OPTIONS=""
 
 # Install Go (required by Bazelisk)
-RUN add-apt-repository ppa:longsleep/golang-backports
 RUN apt update \
-    && apt install -y --allow-remove-essential --allow-change-held-packages golang-go
+    && apt install -y --allow-remove-essential --allow-change-held-packages \
+    golang \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install bazelisk
 RUN mkdir /opt/bazelisk
