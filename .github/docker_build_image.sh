@@ -35,7 +35,7 @@ fi
 IMAGE_SIZE_RAW=$(docker inspect -f "{{ .Size }}" menny/${IMAGE_NAME}:${IMAGE_VERSION})
 IMAGE_SIZE=$(echo $IMAGE_SIZE_RAW | numfmt --to=si)
 PREVIOUS_SIZE="$(docker manifest inspect menny/${IMAGE_NAME}:latest | jq -r '.config.size + ([.layers[].size] | add)')"
-SIZE_MESSAGE="Image size for \`menny/${IMAGE_NAME}:${IMAGE_VERSION}\` is ${IMAGE_SIZE} (or $IMAGE_SIZE_RAW bytes).${SQUASH_MSG} Previous size was ${PREVIOUS_SIZE}."
+SIZE_MESSAGE="Image size for \`menny/${IMAGE_NAME}:${IMAGE_VERSION}\` is ${IMAGE_SIZE} (or $IMAGE_SIZE_RAW bytes).${SQUASH_MSG} Previous (compressed) size was ${PREVIOUS_SIZE}."
 
 echo "${SIZE_MESSAGE}"
 
