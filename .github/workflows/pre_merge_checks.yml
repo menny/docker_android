@@ -27,5 +27,3 @@ jobs:
       run: IMAGE_NAME="android_base" DOCKER_FILE_PATH="android_base/." ./.github/docker_build_image.sh
     - name: Android image with some tools
       run: IMAGE_NAME="android" DOCKER_FILE_PATH="." ./.github/docker_build_image.sh
-    - name: Android and NDK image
-      run: IMAGE_NAME="android_ndk" NDK_VERSION="23.0.7599858" DOCKER_FILE_PATH="android_ndk/." ./.github/docker_build_image.sh

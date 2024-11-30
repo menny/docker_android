@@ -34,7 +34,9 @@ fi
 
 IMAGE_SIZE_RAW=$(docker inspect -f "{{ .Size }}" menny/${IMAGE_NAME}:${IMAGE_VERSION})
 IMAGE_SIZE=$(echo $IMAGE_SIZE_RAW | numfmt --to=si)
-SIZE_MESSAGE="Image size for \`menny/${IMAGE_NAME}:${IMAGE_VERSION}\` is ${IMAGE_SIZE} (or $IMAGE_SIZE_RAW bytes).${SQUASH_MSG}"
+PREVIOUS_SIZE="$(docker manifest inspect menny/${IMAGE_NAME}:latest | jq -r '.config.size + ([.layers[].size] | add)')"
+SIZE_MESSAGE="Image size for \`menny/${IMAGE_NAME}:${IMAGE_VERSION}\` is ${IMAGE_SIZE} (or $IMAGE_SIZE_RAW bytes).${SQUASH_MSG} Previous size was ${PREVIOUS_SIZE}."
+
 echo "${SIZE_MESSAGE}"
 
 if [[ -n "$GITHUB_COMMENT_URL" ]]; then
