@@ -21,6 +21,10 @@ jobs:
         target: Dockerfile android_base/Dockerfile android_bazel/Dockerfile android_ndk/Dockerfile
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set versions
+      uses: tw3lveparsecs/github-actions-set-variables@latest
+      with:
+        envFilePath: .github/versions.env
     - name: Base Android image
       env:
         SQUASH_IMAGE: SQUASH

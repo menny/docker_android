@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-source "$(dirname -- "${BASH_SOURCE[0]}")/shared_tools_versions.sh"
-
 PREVIOUS_SIZE="$(docker manifest inspect menny/${IMAGE_NAME}:latest | jq -r '.config.size + ([.layers[].size] | add)')"
 
 docker image tag menny/${IMAGE_NAME}:${IMAGE_VERSION} menny/${IMAGE_NAME}:latest

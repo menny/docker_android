@@ -21,6 +21,10 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set versions
+      uses: tw3lveparsecs/github-actions-set-variables@latest
+      with:
+        envFilePath: .github/versions.env
     - name: base image
       env:
         IMAGE_NAME: android_base
@@ -65,6 +69,10 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set versions
+      uses: tw3lveparsecs/github-actions-set-variables@latest
+      with:
+        envFilePath: .github/versions.env
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docker_push_image.sh
   green:
@@ -81,12 +89,10 @@ jobs:
     - green
     steps:
     - uses: actions/checkout@v3.5.0
-    - name: Loading version data
-      run: |
-        .github/shared_tools_versions.sh
-        echo "IMAGE_VERSION=$(echo $IMAGE_VERSION)" >> $GITHUB_ENV
-        echo "NDK_VERSION=$(echo $NDK_VERSION)" >> $GITHUB_ENV
-        echo "BAZELISK_VERSION=$(echo $BAZELISK_VERSION)" >> $GITHUB_ENV
+    - name: Set versions
+      uses: tw3lveparsecs/github-actions-set-variables@latest
+      with:
+        envFilePath: .github/versions.env
     - uses: avakar/tag-and-release@v1
       with:
         tag_name: ${{ env.IMAGE_VERSION }}
