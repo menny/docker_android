@@ -82,7 +82,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Loading version data
-      run: .github/shared_tools_versions.sh
+      run: |
+        .github/shared_tools_versions.sh
+        echo "IMAGE_VERSION=$(echo $IMAGE_VERSION)" >> $GITHUB_ENV
+        echo "NDK_VERSION=$(echo $NDK_VERSION)" >> $GITHUB_ENV
+        echo "BAZELISK_VERSION=$(echo $BAZELISK_VERSION)" >> $GITHUB_ENV
     - uses: avakar/tag-and-release@v1
       with:
         tag_name: ${{ env.IMAGE_VERSION }}
