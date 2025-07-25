@@ -21,12 +21,9 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install nodejs and pnpm
-SHELL ["/bin/zsh", "-c"]
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install -y --no-install-recommends nodejs
-RUN curl -fsSL https://get.pnpm.io/install.sh | zsh -
-ENV PNPM_HOME="/root/.local/share/pnpm"
-ENV PATH="${PNPM_HOME}:${PATH}"
+RUN npm install -g pnpm
 
 # Install @google/gemini-cli
 RUN pnpm add -g @google/gemini-cli@${GEMINI_CLI_VERSION}
