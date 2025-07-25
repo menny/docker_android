@@ -24,6 +24,7 @@ RUN apt update \
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install -y --no-install-recommends nodejs
 RUN npm install -g pnpm
+RUN pnpm setup
 
 # Install @google/gemini-cli
 RUN pnpm add -g @google/gemini-cli@${GEMINI_CLI_VERSION}
