@@ -18,7 +18,7 @@ jobs:
     - name: lint
       uses: luke142367/Docker-Lint-Action@v1.1.1
       with:
-        target: Dockerfile android_base/Dockerfile android_bazel/Dockerfile android_ndk/Dockerfile
+        target: Dockerfile android_base/Dockerfile android_bazel/Dockerfile android_ndk/Dockerfile android_dev/Dockerfile
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Set versions
@@ -33,3 +33,5 @@ jobs:
       run: IMAGE_NAME="android" DOCKER_FILE_PATH="." ./.github/docker_build_image.sh
     - name: Android image with Bazel tools
       run: IMAGE_NAME="android_bazel" DOCKER_FILE_PATH="android_bazel/." ./.github/docker_build_image.sh
+    - name: Android image for personal dev
+      run: IMAGE_NAME="android_dev" DOCKER_FILE_PATH="android_dev/." ./.github/docker_build_image.sh
