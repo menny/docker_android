@@ -16,7 +16,7 @@ ENV JAVA_TOOL_OPTIONS=""
 # Install dependencies
 RUN apt update \
     && apt install -y --allow-remove-essential --allow-change-held-packages \
-    zsh \
+    zsh openssh-server \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -58,13 +58,18 @@ ENV PATH=${PNPM_HOME}:${PATH}
 # Add nvm to shell profile for future sessions
 RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc && \
-    echo 'export PNPM_HOME="$HOME/.pnpm"' >> ~/.bashrc
+    echo 'export PNPM_HOME="$HOME/.pnpm"' >> ~/.bashrc && \
+    echo "export PATH=$PATH" >> ~/.bashrc
 
 RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc && \
-    echo 'export PNPM_HOME="$HOME/.pnpm"' >> ~/.zshrc
+    echo 'export PNPM_HOME="$HOME/.pnpm"' >> ~/.zshrc && \
+    echo "export PATH=$PATH" >> ~/.zshrc
 
-# GO to workspace
+RUN mkdir -p /var/run/sshd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+EXPOSE 22
+
 WORKDIR /opt/workspace
 
 COPY entrypoint.sh /opt/workspace/entrypoint.sh

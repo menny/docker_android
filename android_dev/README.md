@@ -39,5 +39,5 @@ The `entrypoint.sh` script will automatically clone a git repository when the co
 For example, to clone a different repository, you can run the following command:
 
 ```bash
-docker run -it -v ~/.ssh:/root/.ssh -e git_repo="my-repo/my-project" -e git_brach="develop" android_dev
+docker run -it -v ~/.ssh:/root/.ssh -e git_repo="my-repo/my-project" -e git_brach="main" menny/android_dev:latest
 ```
