@@ -3,15 +3,40 @@ FROM menny/android_bazel:${IMAGE_VERSION}
 
 ARG IMAGE_VERSION
 ARG GEMINI_CLI_VERSION=latest
+ARG ACTUAL_USER=menny
 
 LABEL description="A general use Android docker for local personal development with pnpm, nodejs, and @google/gemini-cli"
 LABEL version="${IMAGE_VERSION}-${GEMINI_CLI_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
-WORKDIR /opt
+# Install nodejs and pnpm. Taken from https://nodejs.org/en/download/current
+ENV NVM_DIR /opt/nvm
+RUN mkdir -p ${NVM_DIR}
+# Download and install nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
-# removing unsupported OpenJDK arg
-ENV JAVA_TOOL_OPTIONS=""
+ENV PNPM_HOME="/opt/.pnpm"
+ENV PATH=${PNPM_HOME}:${PATH}
+
+# Source nvm and install Node.js
+RUN . "$NVM_DIR/nvm.sh" && \
+    nvm install 24 && \
+    nvm use 24 && \
+    nvm alias default 24
+
+# Verify Node.js installation
+RUN . "$NVM_DIR/nvm.sh" && \
+    node -v && \
+    nvm current
+
+# Enable pnpm via corepack
+RUN . "$NVM_DIR/nvm.sh" && corepack enable pnpm
+
+# Verify pnpm installation
+RUN . "$NVM_DIR/nvm.sh" && pnpm -v && SHELL=/bin/zsh pnpm setup
+
+# Install Gemini CLI
+RUN . "$NVM_DIR/nvm.sh" && pnpm add -g @google/gemini-cli@${GEMINI_CLI_VERSION}
 
 # Install dependencies
 RUN apt update \
@@ -20,57 +45,36 @@ RUN apt update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install oh-my-zsh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# Install nodejs and pnpm. Taken from https://nodejs.org/en/download/current
-# Download and install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-# Source nvm and install Node.js
-RUN . "$HOME/.nvm/nvm.sh" && \
-    nvm install 24 && \
-    nvm use 24 && \
-    nvm alias default 24
-
-# Verify Node.js installation
-RUN . "$HOME/.nvm/nvm.sh" && \
-    node -v && \
-    nvm current
-
-# Enable pnpm via corepack
-RUN . "$HOME/.nvm/nvm.sh" && corepack enable pnpm
-
-# Verify pnpm installation
-RUN . "$HOME/.nvm/nvm.sh" && pnpm -v
-
-# Setup pnpm for global installations and install gemini-cli
-RUN . "$HOME/.nvm/nvm.sh" && \
-    SHELL=/bin/zsh pnpm setup && \
-    export PNPM_HOME="$HOME/.pnpm" && \
-    export PATH="$PNPM_HOME:$PATH" && \
-    pnpm add -g @google/gemini-cli@${GEMINI_CLI_VERSION}
-
-ENV NVM_DIR="$HOME/.nvm"
-ENV PNPM_HOME="$HOME/.pnpm"
-ENV PATH=${PNPM_HOME}:${PATH}
-
-# Add nvm to shell profile for future sessions
-RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc && \
-    echo 'export PNPM_HOME="$HOME/.pnpm"' >> ~/.bashrc && \
-    echo "export PATH=$PATH" >> ~/.bashrc
-
-RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc && \
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc && \
-    echo 'export PNPM_HOME="$HOME/.pnpm"' >> ~/.zshrc && \
-    echo "export PATH=$PATH" >> ~/.zshrc
-
 RUN mkdir -p /var/run/sshd
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# Disallow root login
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+# Explicitly enable password authentication for our user
+RUN sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+RUN echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+
 EXPOSE 22
+
+# Creating to our user
+RUN useradd -m -s /bin/zsh ${ACTUAL_USER}
+RUN chown -R ${ACTUAL_USER}:${ACTUAL_USER} /opt/workspace
+
+# Switch to the new user to install oh-my-zsh
+USER ${ACTUAL_USER}
+
+# Install oh-my-zsh non-interactively
+RUN RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+RUN echo 'export NVM_DIR="$NVM_DIR"' >> /home/${ACTUAL_USER}/.zshrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /home/${ACTUAL_USER}/.zshrc && \
+    echo 'export PNPM_HOME="$PNPM_HOME"' >> /home/${ACTUAL_USER}/.zshrc && \
+    echo "export PATH=$PATH" >> /home/${ACTUAL_USER}/.zshrc
+
+# Switch back to root for remaining setup
+USER root
+
+COPY entrypoint.sh /opt/workspace/entrypoint.sh
+RUN chmod +x /opt/workspace/entrypoint.sh
 
 WORKDIR /opt/workspace
 
-COPY entrypoint.sh /opt/workspace/entrypoint.sh
 ENTRYPOINT ["/opt/workspace/entrypoint.sh"]
