@@ -64,10 +64,10 @@ USER ${ACTUAL_USER}
 # Install oh-my-zsh non-interactively
 RUN RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-RUN echo 'export NVM_DIR="$NVM_DIR"' >> /home/${ACTUAL_USER}/.zshrc && \
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /home/${ACTUAL_USER}/.zshrc && \
-    echo 'export PNPM_HOME="$PNPM_HOME"' >> /home/${ACTUAL_USER}/.zshrc && \
-    echo "export PATH=$PATH" >> /home/${ACTUAL_USER}/.zshrc
+RUN echo "export NVM_DIR=${NVM_DIR}" >> /home/${ACTUAL_USER}/.zshrc && \
+    echo "export PNPM_HOME=${PNPM_HOME}" >> /home/${ACTUAL_USER}/.zshrc && \
+    echo "export PATH=${PATH}" >> /home/${ACTUAL_USER}/.zshrc && \
+    echo "source ${NVM_DIR}/nvm.sh" >> /home/${ACTUAL_USER}/.zshrc
 
 # Switch back to root for remaining setup
 USER root
