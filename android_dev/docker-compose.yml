@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  android-dev-box:
+    image: menny/android_dev:1.21.8
+    restart: 'no'
+    tty: true
+    stdin_open: true
+    environment:
+      - GIT_REPO=AnySoftKeyboard/AnySoftKeyboard
+      - GIT_BRANCH=main
+      - GIT_PROVIDER=github.com
+      - ACTUAL_USER=menny
+      - ACTUAL_PASSWORD=blahblah
+    volumes:
+      - /home/menny/.ssh:/root/.ssh:ro
+      - /home/menny/.ssh:/home/menny/.ssh_original:ro
+      - /home/menny/.gnupg:/home/menny/.gnupg_original:ro
+      - /home/menny/.gitconfig:/home/menny/.gitconfig_original:ro
+      - /home/menny/.gemini:/home/menny/.gemini_original:ro
+      - /home/menny/.filebrowser/srv/dev_box:/home/menny/shared_srv
+      - /etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro
+      - /etc/ssh/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub:ro
+      - /etc/ssh/ssh_host_ecdsa_key:/etc/ssh/ssh_host_ecdsa_key:ro
+      - /etc/ssh/ssh_host_ecdsa_key.pub:/etc/ssh/ssh_host_ecdsa_key.pub:ro
+      - /etc/ssh/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key:ro
+      - /etc/ssh/ssh_host_ed25519_key.pub:/etc/ssh/ssh_host_ed25519_key.pub:ro
+    ports:
+      - 2201:22
