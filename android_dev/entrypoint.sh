@@ -28,18 +28,24 @@ echo "cd $CLONE_DIR" >> "/home/${ACTUAL_USER}/.zshrc"
 # --- 2. Set Permissions ---
 
 # Function to fix ownership and permissions for a directory
-fix_dir_permissions() {
+copy_fix_dir_permissions() {
     local dir_path=$1
     echo "Fixing permissions for ${dir_path}..."
+    mkdir -p "${dir_path}"
+    local original_path="${dir_path}_original"
+    cp -a "${original_path}/." "${dir_path}/"
     chown -R ${ACTUAL_USER}:${ACTUAL_USER} "${dir_path}"
     find "${dir_path}" -type d -exec chmod 700 {} +
     find "${dir_path}" -type f -exec chmod 600 {} +
 }
 
 # Function to fix ownership for a file
-fix_file_owner() {
+copy_fix_file_owner() {
     local file_path=$1
     echo "Fixing ownership for ${file_path}..."
+    mkdir -p "dirname(${file_path})"
+    local original_path="${file_path}_original"
+    cp "${original_path}" "${file_path}"
     chown ${ACTUAL_USER}:${ACTUAL_USER} "${file_path}"
 }
 
@@ -48,11 +54,10 @@ echo "Setting permissions for user '${ACTUAL_USER}' on '${CLONE_DIR}'..."
 chown -R ${ACTUAL_USER}:${ACTUAL_USER} "${CLONE_DIR}"
 
 # Fix permissions for mounted directories and files
-fix_dir_permissions "/home/${ACTUAL_USER}/.ssh"
-fix_dir_permissions "/home/${ACTUAL_USER}/.gnupg"
-fix_dir_permissions "/home/${ACTUAL_USER}/.gemini"
-fix_dir_permissions "/home/${ACTUAL_USER}/shared_srv"
-fix_file_owner "/home/${ACTUAL_USER}/.gitconfig"
+copy_fix_dir_permissions "/home/${ACTUAL_USER}/.ssh"
+copy_fix_dir_permissions "/home/${ACTUAL_USER}/.gnupg"
+copy_fix_dir_permissions "/home/${ACTUAL_USER}/.gemini"
+copy_fix_file_owner "/home/${ACTUAL_USER}/.gitconfig"
 
 # --- 3. Set User Password ---
 # Check if the ACTUAL_PASSWORD environment variable is provided
