@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   android-dev-box:
-    image: menny/android_dev:1.21.8
+    image: menny/android_dev:latest
     restart: 'no'
     tty: true
     stdin_open: true
