@@ -10,7 +10,7 @@ LABEL version="${IMAGE_VERSION}-${GEMINI_CLI_VERSION}"
 LABEL maintainer="menny@evendanan.net"
 
 # Install nodejs and pnpm. Taken from https://nodejs.org/en/download/current
-ENV NVM_DIR /opt/nvm
+ENV NVM_DIR=/opt/nvm
 RUN mkdir -p ${NVM_DIR}
 # Download and install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash

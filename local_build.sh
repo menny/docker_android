@@ -1,9 +1,9 @@
 #!/bin/bash
-
 set -e
 
 # Source the versions.env file to get default values
 source .github/versions.env
+echo "Will use args: IMAGE_VERSION=${IMAGE_VERSION}, NDK_VERSION=${NDK_VERSION}, BAZELISK_VERSION=${BAZELISK_VERSION}"
 
 function build_image() {
     local image_name="$1"
