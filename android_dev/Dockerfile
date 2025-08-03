@@ -68,15 +68,13 @@ RUN echo "export NVM_DIR=${NVM_DIR}" >> /home/${ACTUAL_USER}/.zshrc && \
     echo "export PNPM_HOME=${PNPM_HOME}" >> /home/${ACTUAL_USER}/.zshrc && \
     echo "export PATH=${PATH}" >> /home/${ACTUAL_USER}/.zshrc && \
     echo "source ${NVM_DIR}/nvm.sh" >> /home/${ACTUAL_USER}/.zshrc && \
-    echo "exec /opt/workspace/start_tmux_dev_session.sh" >> /home/${ACTUAL_USER}/.zshrc
+    echo "tmux attach-session -t dev-session 2>/dev/null || tmux new-session -s dev-session" >> /home/${ACTUAL_USER}/.zshrc
 
 # Switch back to root for remaining setup
 USER root
 
 COPY entrypoint.sh /opt/workspace/entrypoint.sh
-COPY start_tmux_dev_session.sh /opt/workspace/start_tmux_dev_session.sh
 RUN chmod +x /opt/workspace/entrypoint.sh
-RUN chmod +x /opt/workspace/start_tmux_dev_session.sh
 
 WORKDIR /opt/workspace
 
