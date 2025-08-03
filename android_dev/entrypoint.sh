@@ -26,9 +26,33 @@ git clone --branch "${GIT_BRANCH}" "https://${GIT_PROVIDER}/${GIT_REPO}" "${CLON
 echo "cd $CLONE_DIR" >> "/home/${ACTUAL_USER}/.zshrc"
 
 # --- 2. Set Permissions ---
+
+# Function to fix ownership and permissions for a directory
+fix_dir_permissions() {
+    local dir_path=$1
+    echo "Fixing permissions for ${dir_path}..."
+    chown -R ${ACTUAL_USER}:${ACTUAL_USER} "${dir_path}"
+    find "${dir_path}" -type d -exec chmod 700 {} +
+    find "${dir_path}" -type f -exec chmod 600 {} +
+}
+
+# Function to fix ownership for a file
+fix_file_owner() {
+    local file_path=$1
+    echo "Fixing ownership for ${file_path}..."
+    chown ${ACTUAL_USER}:${ACTUAL_USER} "${file_path}"
+}
+
 echo "Setting permissions for user '${ACTUAL_USER}' on '${CLONE_DIR}'..."
 # Give the user ownership of the newly cloned repository folder
 chown -R ${ACTUAL_USER}:${ACTUAL_USER} "${CLONE_DIR}"
+
+# Fix permissions for mounted directories and files
+fix_dir_permissions "/home/${ACTUAL_USER}/.ssh"
+fix_dir_permissions "/home/${ACTUAL_USER}/.gnupg"
+fix_dir_permissions "/home/${ACTUAL_USER}/.gemini"
+fix_dir_permissions "/home/${ACTUAL_USER}/shared_srv"
+fix_file_owner "/home/${ACTUAL_USER}/.gitconfig"
 
 # --- 3. Set User Password ---
 # Check if the ACTUAL_PASSWORD environment variable is provided
@@ -39,8 +63,9 @@ if [ -n "$ACTUAL_PASSWORD" ]; then
     echo "Password has been set."
 else
     # Warn the user if the password is not set
-    echo "WARNING: No 'ACTUAL_PASSWORD' environment variable found."
+    echo "ERROR: No 'ACTUAL_PASSWORD' environment variable found."
     echo "User '${ACTUAL_USER}' will not have a password set, and password-based SSH may fail."
+    exit 1
 fi
 
 # --- 4. Start SSH Server ---
