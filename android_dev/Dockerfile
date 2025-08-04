@@ -73,6 +73,7 @@ RUN echo "export NVM_DIR=${NVM_DIR}" >> /home/${ACTUAL_USER}/.zshrc && \
 # Switch back to root for remaining setup
 USER root
 
+COPY tmux.conf /etc/tmux.conf
 COPY entrypoint.sh /opt/workspace/entrypoint.sh
 RUN chmod +x /opt/workspace/entrypoint.sh
 
