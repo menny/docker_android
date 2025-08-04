@@ -25,7 +25,7 @@ export TMUX_SESSION_NAME
 echo "Cloning repository '${GIT_REPO}' from branch '${GIT_BRANCH}'..."
 
 # Clone the repository into a specific subdirectory within the workspace
-git clone --branch "${GIT_BRANCH}" "https://${GIT_PROVIDER}/${GIT_REPO}" "${CLONE_DIR}"
+git clone --branch "${GIT_BRANCH}" "git@${GIT_PROVIDER}:${GIT_REPO}.git" "${CLONE_DIR}"
 # The user should be in the clone folder right after login
 echo "cd $CLONE_DIR" >> "/home/${ACTUAL_USER}/.zshrc"
 echo "tmux attach-session -t \"${TMUX_SESSION_NAME}\" 2>/dev/null || tmux new-session -s \"${TMUX_SESSION_NAME}\"" >> "/home/${ACTUAL_USER}/.zshrc"
