@@ -67,12 +67,12 @@ RUN RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmy
 RUN echo "export NVM_DIR=${NVM_DIR}" >> /home/${ACTUAL_USER}/.zshrc && \
     echo "export PNPM_HOME=${PNPM_HOME}" >> /home/${ACTUAL_USER}/.zshrc && \
     echo "export PATH=${PATH}" >> /home/${ACTUAL_USER}/.zshrc && \
-    echo "source ${NVM_DIR}/nvm.sh" >> /home/${ACTUAL_USER}/.zshrc && \
-    echo "tmux attach-session -t dev-session 2>/dev/null || tmux new-session -s dev-session" >> /home/${ACTUAL_USER}/.zshrc
+    echo "source ${NVM_DIR}/nvm.sh" >> /home/${ACTUAL_USER}/.zshrc
 
 # Switch back to root for remaining setup
 USER root
 
+COPY tmux.conf /etc/tmux.conf
 COPY entrypoint.sh /opt/workspace/entrypoint.sh
 RUN chmod +x /opt/workspace/entrypoint.sh
 
