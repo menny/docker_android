@@ -48,7 +48,7 @@ copy_fix_dir_permissions() {
 copy_fix_file_owner() {
     local file_path=$1
     echo "Fixing ownership for ${file_path}..."
-    mkdir -p "dirname(${file_path})"
+    mkdir -p "$(dirname "${file_path}")"
     local original_path="${file_path}_original"
     cp "${original_path}" "${file_path}"
     chown ${ACTUAL_USER}:${ACTUAL_USER} "${file_path}"
