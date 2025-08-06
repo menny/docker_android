@@ -65,6 +65,9 @@ copy_fix_dir_permissions "/home/${ACTUAL_USER}/.gemini"
 copy_fix_file_owner "/home/${ACTUAL_USER}/.gitconfig"
 # Android SDK can be updated on the fly (with newly request build-tools etc)
 chown -R ${ACTUAL_USER}:${ACTUAL_USER} "${ANDROID_HOME}"
+# Allowing our user to install npm stuff
+chown -R ${ACTUAL_USER}:${ACTUAL_USER} /opt/nvm
+chown -R ${ACTUAL_USER}:${ACTUAL_USER} /opt/.pnpm
 
 # --- 3. Set User Password ---
 # Check if the ACTUAL_PASSWORD environment variable is provided
