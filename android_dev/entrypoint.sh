@@ -17,8 +17,8 @@ WORKSPACE_DIR="/opt/workspace"
 REPO_NAME=$(basename "${GIT_REPO}")
 CLONE_DIR="${WORKSPACE_DIR}/${REPO_NAME}"
 
-# Define the tmux session name
-TMUX_SESSION_NAME="${GIT_BRANCH}-${REPO_NAME}"
+# Define the tmux session name - sanitize to use only safe characters
+TMUX_SESSION_NAME=$(echo "${GIT_BRANCH}-${REPO_NAME}" | sed 's/[^a-zA-Z0-9_-]/_/g')
 export TMUX_SESSION_NAME
 
 # --- 1. Clone Git Repository ---
@@ -64,8 +64,10 @@ copy_fix_dir_permissions "/home/${ACTUAL_USER}/.gnupg"
 copy_fix_dir_permissions "/home/${ACTUAL_USER}/.gemini"
 copy_fix_file_owner "/home/${ACTUAL_USER}/.gitconfig"
 # Android SDK can be updated on the fly (with newly request build-tools etc)
+echo "Fixing ownership for ${ANDROID_HOME}..."
 chown -R ${ACTUAL_USER}:${ACTUAL_USER} "${ANDROID_HOME}"
 # Allowing our user to install npm stuff
+echo "Fixing ownership for nvm and pnpm..."
 chown -R ${ACTUAL_USER}:${ACTUAL_USER} /opt/nvm
 chown -R ${ACTUAL_USER}:${ACTUAL_USER} /opt/.pnpm
 
