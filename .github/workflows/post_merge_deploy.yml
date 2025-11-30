@@ -140,22 +140,25 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
     - green
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v3.5.0
     - name: Set versions
       uses: tw3lveparsecs/github-actions-set-variables@latest
       with:
         envFilePath: .github/versions.env
-    - uses: avakar/tag-and-release@v1
+    - uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ env.IMAGE_VERSION }}
-        body: >
-          **Base**: image with JDK17, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):<br/>
+        generate_release_notes: true
+        body: |
+          **Base**: image with JDK 21, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_base:${{ env.IMAGE_VERSION }}
           ```<br/>
           <br/>
-          **Android**: Base + Build Tools, Platform level 35 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):<br/>
+          **Android**: Base + Build Tools, Platform level 36 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android:${{ env.IMAGE_VERSION }}
           ```<br/>
@@ -179,7 +182,5 @@ jobs:
           ```
           docker pull ghcr.io/menny/android_dev:${{ env.IMAGE_VERSION }}
           ```
-
-
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
