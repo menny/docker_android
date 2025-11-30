@@ -5,7 +5,8 @@ My general usage (very up-to-date) Docker image for Android CI. Without anything
 
 * Based on `ubuntu:jammy` 22.04
 * with wget, curl, zip, python, python3, pip, rsyslog, git, make, gcc (and other build-essential)
-* Corretto JDK17 - https://github.com/corretto/corretto-17/releases
+* Corretto JDK 21 - https://github.com/corretto/corretto-21/releases
+* Android Command Line Tools 19.0
 * Compressed and squashed into one layer.
 
 ## Accepting licenses

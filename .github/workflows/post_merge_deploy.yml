@@ -75,10 +75,37 @@ jobs:
         envFilePath: .github/versions.env
     - run: ./.github/docker_build_image.sh
     - run: ./.github/docker_push_image.sh
-  build_dev_image:
+  build_dev_base_image:
     runs-on: ubuntu-24.04
     needs:
     - build_specialized_images
+    env:
+      IMAGE_NAME: android_dev_base
+      DOCKER_FILE_PATH: android_dev_base/.
+      SQUASH_IMAGE: NO
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2.1.0
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
+    - name: Log in to the Container registry
+      uses: docker/login-action@v2.1.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set versions
+      uses: tw3lveparsecs/github-actions-set-variables@latest
+      with:
+        envFilePath: .github/versions.env
+    - run: ./.github/docker_build_image.sh
+    - run: ./.github/docker_push_image.sh
+  build_dev_image:
+    runs-on: ubuntu-24.04
+    needs:
+    - build_dev_base_image
     env:
       IMAGE_NAME: android_dev
       DOCKER_FILE_PATH: android_dev/.
@@ -143,7 +170,12 @@ jobs:
           docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
           ```
           <br/>
-          **Dev**: Bazel + node, pnpm, zsh, oh-my-zsh, and gemini-cli ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev/Dockerfile)):<br/>
+          **Dev-Base**: Bazel + node, pnpm, zsh, Claude-Code, and gemini-cli ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev_base/Dockerfile)):<br/>
+          ```
+          docker pull ghcr.io/menny/android_dev_base:${{ env.IMAGE_VERSION }}
+          ```
+          <br/>
+          **Dev**: android_dev_base + oh-my-zsh + sshd + some scripts ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev/Dockerfile)):<br/>
           ```
           docker pull ghcr.io/menny/android_dev:${{ env.IMAGE_VERSION }}
           ```
