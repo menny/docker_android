@@ -5,13 +5,13 @@ These images are available in Docker Hub and [ghcr.io](https://github.com/menny?
 
 ## Contains:
 
-* Based on `ubuntu:jammy` 24.04
+* Based on `ubuntu:plucky` 25.04
 * with wget, curl, zip, python, pip, git, make, gcc (and other build-essential)
-* Corretto JDK17 - https://github.com/corretto/corretto-17/releases
-* cmdline tools 16.0
-* Platform tools 35.0.0
-* Build Tools 35.0.0
-* SDK API 35
+* Corretto JDK21 - https://github.com/corretto/corretto-21/releases
+* cmdline tools 19.0
+* Platform tools 36.1.0
+* Build Tools 36.1.0
+* SDK API 36
 * Compressed and squashed into one layer (where makes sense).
 
 
