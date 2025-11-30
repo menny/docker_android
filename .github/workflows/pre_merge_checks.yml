@@ -33,5 +33,5 @@ jobs:
       run: IMAGE_NAME="android" DOCKER_FILE_PATH="." ./.github/docker_build_image.sh
     - name: Android image with Bazel tools
       run: IMAGE_NAME="android_bazel" DOCKER_FILE_PATH="android_bazel/." ./.github/docker_build_image.sh
-    - name: Android image for personal dev
-      run: IMAGE_NAME="android_dev" DOCKER_FILE_PATH="android_dev/." ./.github/docker_build_image.sh
+    - name: Android image for personal dev (base)
+      run: IMAGE_NAME="android_dev_base" DOCKER_FILE_PATH="android_dev_base/." ./.github/docker_build_image.sh
