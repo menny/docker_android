@@ -153,32 +153,37 @@ jobs:
         tag_name: ${{ env.IMAGE_VERSION }}
         generate_release_notes: true
         body: |
-          **Base**: image with JDK 21, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):<br/>
+          **Base**: image with JDK 21, Android SDK Manager ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_base/Dockerfile)):
+          
           ```
           docker pull ghcr.io/menny/android_base:${{ env.IMAGE_VERSION }}
-          ```<br/>
-          <br/>
-          **Android**: Base + Build Tools, Platform level 36 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):<br/>
+          ```
+
+          **Android**: Base + Build Tools, Platform level 36 ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/Dockerfile)):
+          
           ```
           docker pull ghcr.io/menny/android:${{ env.IMAGE_VERSION }}
-          ```<br/>
-          <br/>
-          **NDK**: Android + NDK ${{ env.NDK_VERSION }} ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):<br/>
+          ```
+          
+          **NDK**: Android + NDK ${{ env.NDK_VERSION }} ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_ndk/Dockerfile)):
+          
           ```
           docker pull ghcr.io/menny/android_ndk:${{ env.IMAGE_VERSION }}
-          ```<br/>
-          <br/>
-          **Bazel**: Android + Bazelisk ${{ env.BAZELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):<br/>
+          ```
+          
+          **Bazel**: Android + Bazelisk ${{ env.BAZELISK_VERSION }} and Go ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_bazel/Dockerfile)):
+          
           ```
           docker pull ghcr.io/menny/android_bazel:${{ env.IMAGE_VERSION }}
           ```
-          <br/>
-          **Dev-Base**: Bazel + node, pnpm, zsh, Claude-Code, and gemini-cli ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev_base/Dockerfile)):<br/>
+          
+          **Dev-Base**: Bazel + node, pnpm, zsh, Claude-Code, and gemini-cli ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev_base/Dockerfile)):
           ```
           docker pull ghcr.io/menny/android_dev_base:${{ env.IMAGE_VERSION }}
           ```
-          <br/>
-          **Dev**: android_dev_base + oh-my-zsh + sshd + some scripts ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev/Dockerfile)):<br/>
+
+          **Dev**: android_dev_base + oh-my-zsh + sshd + some scripts ([Dockerfile](https://github.com/menny/docker_android/blob/${{ env.IMAGE_VERSION }}/android_dev/Dockerfile)):
+          
           ```
           docker pull ghcr.io/menny/android_dev:${{ env.IMAGE_VERSION }}
           ```
