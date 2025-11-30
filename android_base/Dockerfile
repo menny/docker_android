@@ -13,7 +13,7 @@ ENV TERM=dumb
 RUN apt-get update \
     && apt-get install -y --allow-remove-essential --allow-change-held-packages --no-install-recommends \
       locales ca-certificates build-essential zlib1g-dev \
-      pkg-config file \
+      pkg-config file gpg \
       python3 python3-pip python3-lxml python3-yaml libxml2-utils yamllint \
       wget curl nano rsync zip psmisc rsyslog jq unzip \
       imagemagick librsvg2-bin \
