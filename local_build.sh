@@ -31,6 +31,10 @@ pushd android_bazel
 build_image android_bazel
 popd
 
+pushd android_dev_base
+build_image android_dev_base
+popd
+
 pushd android_dev
 build_image android_dev
 popd

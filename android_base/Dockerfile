@@ -1,4 +1,4 @@
-FROM ubuntu:jammy@sha256:f470988096c4d77efac9740a1b6700823681af518a17fad30111430b95dfbffa
+FROM ubuntu:plucky@sha256:34e8533bf27ac50f60bec267f6ce18c9aeb9556574e1ec1a8ce89926d32ea8f3
 ARG IMAGE_VERSION
 
 LABEL description="A general use Android docker for CI"
@@ -12,14 +12,13 @@ ENV TERM=dumb
 # Install Deps and build-essential
 RUN apt-get update \
     && apt-get install -y --allow-remove-essential --allow-change-held-packages --no-install-recommends \
-      locales software-properties-common ca-certificates build-essential zlib1g-dev \
+      locales ca-certificates build-essential zlib1g-dev \
       pkg-config file \
       python3 python3-pip python3-lxml python3-yaml libxml2-utils yamllint \
       wget curl nano rsync zip psmisc rsyslog jq unzip \
       imagemagick librsvg2-bin \
       java-common \
-    && add-apt-repository ppa:git-core/ppa -y \
-    && apt-get install git  -y --allow-remove-essential --allow-change-held-packages --no-install-recommends \
+      git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -40,14 +39,14 @@ ENV ANDROID_HOME=/opt/android-sdk-linux
 ENV PATH=${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools
 
 # Setup Java
-RUN curl https://corretto.aws/downloads/resources/17.0.10.8.1/java-17-amazon-corretto-jdk_17.0.10.8-1_amd64.deb -o jdk-corretto.deb \
+RUN curl -L https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.deb -o jdk-corretto.deb \
     && dpkg --install jdk-corretto.deb \
     && rm jdk-corretto.deb
 
 RUN java -version
 
 # Install Android SDK
-RUN curl https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o downloaded_sdk.zip \
+RUN curl -L https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip -o downloaded_sdk.zip \
     && mkdir -p /opt/android-sdk-linux/cmdline-tools \
     && unzip downloaded_sdk.zip -d /opt/android-sdk-linux/cmdline-tools \
     && rm -f downloaded_sdk.zip \
@@ -59,7 +58,7 @@ RUN yes | sdkmanager --licenses
 # Install sdk elements (list from "sdkmanager --list")
 RUN sdkmanager --list
 
-RUN sdkmanager "cmdline-tools;16.0"
+RUN sdkmanager "cmdline-tools;19.0"
 RUN sdkmanager "platform-tools"
 
 #accepting licenses
